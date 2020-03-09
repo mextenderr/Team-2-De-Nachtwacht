@@ -9,6 +9,8 @@ server.bind((ip, port))
 server.listen(1)
 
 clientSocket, clientAddress = server.accept()
+print(clientSocket)
+print(clientAddress)
 
 while True:
     data = clientSocket.recv(1024).decode("utf-8")

@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 try {
-                    PrintWriter out = new PrintWriter(socket.getOutputStream());
+                    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
                     out.print(msg);
                     out.flush();

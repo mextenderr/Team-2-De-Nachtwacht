@@ -52,7 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void run() {
                 try {
-                    socket = new Socket("127.0.0.1", 4567);
+                    System.out.println("Connecting to server...");
+                    socket = new Socket("192.168.8.31", 4567);
                     System.out.println("---Connected to server!---");
 
                 } catch (UnknownHostException e1) {
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 try {
-                    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                    PrintWriter out = new PrintWriter(socket.getOutputStream());
 
                     out.print(msg);
                     out.flush();
@@ -72,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
+
+        sent.start();
 
     }
 

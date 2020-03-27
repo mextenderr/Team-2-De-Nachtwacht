@@ -23,6 +23,7 @@
 #include "MAX30105.h"
 
 MAX30105 particleSensor;
+byte receivedData;
 
 #define debug Serial //Uncomment this line if you're using an Uno or ESP
 //#define debug SerialUSB //Uncomment this line if you're using a SAMD21
@@ -44,13 +45,18 @@ void setup()
 
 void loop()
 {
-  debug.print(" R[");
-  debug.print(particleSensor.getRed());
-  debug.print("] IR[");
-  debug.print(particleSensor.getIR());
-  debug.print("] G[");
-  debug.print(particleSensor.getGreen());
-  debug.print("]");
-
-  debug.println();
+  if(debug.available() >0){
+    receivedData = debug.read();
+    if(receivedData == 48){
+      for(int i = 65; i<= 90; i++){
+        int red= particleSensor.getRed();
+        int IR =  particleSensor.getIR();
+        int green = particleSensor.getGreen();
+        String message = " R[" + String(red)  + "] IR[" + String(IR) +  "] G[" +String(green) +"]"; 
+        debug.print(message);
+        delay(50);
+      }
+    }
+  }
+ 
 }

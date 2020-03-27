@@ -48,6 +48,7 @@ void loop()
   if(debug.available() >0){
     receivedData = debug.read();
     if(receivedData == 48){
+      
       for(int i = 65; i<= 90; i++){
         int red= particleSensor.getRed();
         int IR =  particleSensor.getIR();

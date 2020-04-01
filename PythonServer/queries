@@ -1,0 +1,11 @@
+cur.execute(
+    """
+    create table "Users"
+    (
+    "UID" int primary key not null,
+    "Username" varchar(30) not null,
+    "Password" varchar(30) not null
+    )
+    """
+)
+

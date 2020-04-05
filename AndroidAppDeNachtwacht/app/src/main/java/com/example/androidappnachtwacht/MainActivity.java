@@ -2,6 +2,7 @@ package com.example.androidappnachtwacht;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.os.Handler;
@@ -76,6 +77,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         sent.start();
 
+    }
+
+    public void btn_chart(View v){
+        Intent intent = new Intent (MainActivity.this,chart.class);
+        startActivity(intent);
     }
 
 }

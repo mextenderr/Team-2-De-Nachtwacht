@@ -47,7 +47,7 @@ def registerUser():
     password = request.args.get('psw', None)
 
     cursor.execute(
-        """insert into "Users" values(1, %s, %s)""" , ( username, password )
+        """insert into "Users"(username, password) values(%s, %s)""" , ( username, password )
     )
     connection.commit()
 

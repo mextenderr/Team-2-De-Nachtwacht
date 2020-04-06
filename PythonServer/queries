@@ -2,7 +2,7 @@ cur.execute(
     """
     create table "Users"
     (
-    uid int primary key not null,
+    uid serial primary key not null,
     username varchar(30) not null,
     password varchar(30) not null
     )

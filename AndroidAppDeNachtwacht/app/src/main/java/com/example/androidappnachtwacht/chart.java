@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -13,7 +14,15 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 
 public class chart extends AppCompatActivity {
     private static final String TAG = "chart";
@@ -24,30 +33,30 @@ public class chart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart);
 
+
         mChart = (LineChart) findViewById(R.id.linechart);
 
-       //   mChart.setOnChartGestureListener(chart.this);
-       //   mChart.setOnChartValueSelectedListener(chart.this);
-       mChart.setDragEnabled(true);
-       mChart.setScaleEnabled(false);
+        mChart.setDragEnabled(true);
+        mChart.setScaleEnabled(false);
 
-        ArrayList<Entry>yValues = new ArrayList<>();
-        yValues.add(new Entry(0,60));
-        yValues.add(new Entry(1,50));
-        yValues.add(new Entry(2,70));
-        yValues.add(new Entry(3,30));
-        yValues.add(new Entry(4,50));
-        yValues.add(new Entry(5,70));
-        yValues.add(new Entry(6,20));
-        yValues.add(new Entry(7,60));
-        yValues.add(new Entry(8,50));
-        yValues.add(new Entry(9,70));
-        yValues.add(new Entry(10,30));
-        yValues.add(new Entry(11,50));
-        yValues.add(new Entry(12,70));
-        yValues.add(new Entry(13,20));
+        InputStream is = getResources().openRawResource(R.raw.data);
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(is, Charset.forName("UTF-8")));
 
-        LineDataSet Set1= new LineDataSet(yValues,"Data Set 1");
+        String line = "";
+        ArrayList<Entry> yValues = new ArrayList<>();
+        try {
+            while ((line = reader.readLine()) != null) {
+                //split by
+                String[] tokens = line.split(",");
+                yValues.add(new Entry(Integer.parseInt(tokens[0]),Integer.parseInt(tokens[1])));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        LineDataSet Set1 = new LineDataSet(yValues, "Data Set 1");
 
         Set1.setFillAlpha(110);
         Set1.setColor(Color.RED);
@@ -57,9 +66,7 @@ public class chart extends AppCompatActivity {
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(Set1);
         LineData data = new LineData(dataSets);
-
         mChart.setData(data);
 
-
     }
-}
+    }

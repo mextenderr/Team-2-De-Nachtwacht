@@ -4,6 +4,7 @@ from flask import jsonify
 from random import randint
 import csv
 import psycopg2
+import datetime
 
 
 
@@ -65,10 +66,9 @@ def registerUser():
 def getSleepData():
     user = request.args.get('uid', None)
 
-    cursor.execute("""select csvfilename from "Users" where username = %s""", (user,) )
-    csv = str(cursor.fetchone()[0])
+    csvUser = getCsvForUser(user)
 
-    with open(csv, 'r', newline='') as file:
+    with open(csvUser, 'r') as file:
         # TODO: return sleep data out of opened file
         pass
 
@@ -77,12 +77,26 @@ def getSleepData():
 
 @app.route('/uploadsleepdata')
 def uploadSleepData():
-    # TODO: writing data to users' csv data file
+    # TODO: receive data in determined data structure
 
-    return
+    user = request.args.get('uid', None)
+    data = request.args.get('data', None)
+
+    csvUser = getCsvForUser(user)
+
+    # opening a csv file with parameter 'a' will allow appending rows at end of file
+    with open(csvUser, 'a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['13-04-2020-12-18', data])
+
+
+    return jsonify( succes = True )
 
 
 
+def getCsvForUser(user):
+    cursor.execute("""select csvfilename from "Users" where username = %s""", (user,))
+    return str(cursor.fetchone()[0])
 
 
 

@@ -2,6 +2,7 @@ package com.example.androidappnachtwacht;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.os.Handler;
@@ -24,16 +25,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static Socket socket;
     private EditText data;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Button start = findViewById(R.id.buttontoStart);
         Button sendDataButton = findViewById(R.id.sendDataButton);
 
         data = findViewById(R.id.sendDataBox);
 
         sendDataButton.setOnClickListener(this);
+        start.setOnClickListener(this);
 
     }
 
@@ -44,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.sendDataButton:
                 sendMessage(data.getText().toString());
                 break;
+            case R.id.buttontoStart:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
         }
     }
 

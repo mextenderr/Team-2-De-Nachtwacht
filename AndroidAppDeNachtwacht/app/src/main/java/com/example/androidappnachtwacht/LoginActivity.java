@@ -19,7 +19,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.login_activity_red);
 
         username = findViewById(R.id.InputFieldMakeUsername);
         password = findViewById(R.id.inputFieldMakePassword);
@@ -45,5 +45,4 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         }
 
     }
-
 }

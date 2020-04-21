@@ -33,12 +33,11 @@ cursor = connection.cursor()
 
 
 
-# START:    http requests setup     #
+# START:    http requests     #
 
 app = Flask(__name__)
 
 
-# creates an http request with linked name
 @app.route('/registeruser')
 def registerUser():
     # out of request we can extract the arguments given in the http request (account details)
@@ -70,7 +69,10 @@ def getSleepData():
 
     with open(csvUser, 'r') as file:
         # TODO: return sleep data out of opened file
-        pass
+        reader = csv.reader(file, delimiter=',')
+
+
+
 
     return
 
@@ -80,24 +82,29 @@ def uploadSleepData():
     # TODO: receive data in determined data structure
 
     user = request.args.get('uid', None)
-    data = request.args.get('data', None)
+    time = request.args.get('time', None)
+    heartrate = request.args.get('hr', None)
 
+    # retreiving path to users' csv file
     csvUser = getCsvForUser(user)
 
     # opening a csv file with parameter 'a' will allow appending rows at end of file
     with open(csvUser, 'a', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(['13-04-2020-12-18', data])
-
+        writer.writerow([time, heartrate])
 
     return jsonify( succes = True )
 
 
 
 def getCsvForUser(user):
+    # returns the path to the user's csv file
+
     cursor.execute("""select csvfilename from "Users" where username = %s""", (user,))
     return str(cursor.fetchone()[0])
 
+
+# END:    http requests     #
 
 
 

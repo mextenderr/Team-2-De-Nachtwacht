@@ -4,7 +4,6 @@ from flask import jsonify
 from random import randint
 import csv
 import psycopg2
-import datetime
 
 
 
@@ -33,11 +32,12 @@ cursor = connection.cursor()
 
 
 
-# START:    http requests     #
+# START:    http requests setup     #
 
 app = Flask(__name__)
 
 
+# creates an http request with linked name
 @app.route('/registeruser')
 def registerUser():
     # out of request we can extract the arguments given in the http request (account details)
@@ -66,46 +66,25 @@ def registerUser():
 def getSleepData():
     user = request.args.get('uid', None)
 
-    csvUser = getCsvForUser(user)
+    cursor.execute("""select csvfilename from "Users" where username = %s""", (user,) )
+    csv = str(cursor.fetchone()[0])
 
-    with open(csvUser, 'r') as file:
+    with open(csv, 'r', newline='') as file:
         # TODO: return sleep data out of opened file
-        reader = csv.reader(file, delimiter=',')
-
-
-
+        pass
 
     return
 
 
 @app.route('/uploadsleepdata')
 def uploadSleepData():
-    # TODO: receive data in determined data structure
+    # TODO: writing data to users' csv data file
 
-    user = request.args.get('uid', None)
-    time = request.args.get('time', None)
-    heartrate = request.args.get('hr', None)
-
-    # retreiving path to users' csv file
-    csvUser = getCsvForUser(user)
-
-    # opening a csv file with parameter 'a' will allow appending rows at end of file
-    with open(csvUser, 'a', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow([time, heartrate])
-
-    return jsonify( succes = True )
+    return
 
 
 
-def getCsvForUser(user):
-    # returns the path to the user's csv file
 
-    cursor.execute("""select csvfilename from "Users" where username = %s""", (user,))
-    return str(cursor.fetchone()[0])
-
-
-# END:    http requests     #
 
 
 

@@ -51,6 +51,7 @@ def registerUser():
         writer = csv.writer(file)
         writer.writerow(['time', 'heartrate'])
 
+
     # storing user account details in database and refering the csv file linked to the account
     cursor.execute(
         """insert into "Users"(username, password, csvfilename) values(%s, %s, %s)""" , ( user, password, csvFileName )

@@ -2,6 +2,7 @@ package com.example.androidappnachtwacht;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.os.Handler;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static Thread sent;
     static Socket socket;
     private EditText data;
+    private Button ToAlarmButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +33,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button sendDataButton = findViewById(R.id.sendDataButton);
 
+        ToAlarmButton = findViewById(R.id.ToAlarm);
+        ToAlarmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toAlarmActivity();
+            }
+        });
+
+
+
+
+
         data = findViewById(R.id.sendDataBox);
 
         sendDataButton.setOnClickListener(this);
 
+    }
+
+    private void toAlarmActivity() {
+        Intent intent = new Intent(this, Alarm.class);
+        startActivity(intent);
     }
 
 
@@ -45,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 sendMessage(data.getText().toString());
                 break;
         }
+
+
+
     }
 
     private void sendMessage(final String msg) {

@@ -26,4 +26,16 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sendDataBox" />
+
+    <Button
+        android:id="@+id/ToAlarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AlarmView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sendDataButton"
+        app:layout_constraintVertical_bias="0.731" />
 </androidx.constraintlayout.widget.ConstraintLayout>

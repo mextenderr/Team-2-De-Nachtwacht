@@ -18,6 +18,7 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".CreateAccount" />
+        <activity android:name=".Alarm" />
     </application>
 
 </manifest>

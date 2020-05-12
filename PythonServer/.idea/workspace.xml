@@ -2,8 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="36f191de-34af-4641-ac1b-ace18a4441cf" name="Default Changelist" comment="Worked on request 'uploadSleepData'">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RestAPI_DeNachtwacht.py" beforeDir="false" afterPath="$PROJECT_DIR$/RestAPI_DeNachtwacht.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/PythonServer.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RestAPI_DeNachtwacht.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SocketReceiver.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/queries" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,16 +95,11 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="594" y="260" key="#Inspections" timestamp="1589114685533">
-      <screen x="0" y="23" width="1920" height="1104" />
-    </state>
-    <state x="594" y="260" key="#Inspections/0.23.1920.1104@0.23.1920.1104" timestamp="1589114685533" />
-    <state x="528" y="323" key="SettingsEditor" timestamp="1589116014512">
-      <screen x="0" y="23" width="1920" height="1104" />
-    </state>
-    <state x="528" y="323" key="SettingsEditor/0.23.1920.1104@0.23.1920.1104" timestamp="1589116014512" />
+    <state x="594" y="260" key="#Inspections" />
+    <state x="594" y="260" key="#Inspections/0.23.1920.1104@0.23.1920.1104" />
+    <state x="528" y="323" key="SettingsEditor" />
+    <state x="528" y="323" key="SettingsEditor/0.23.1920.1104@0.23.1920.1104" />
   </component>
 </project>

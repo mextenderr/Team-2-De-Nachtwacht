@@ -45,6 +45,13 @@
         tools:layout_editor_absoluteX="159dp"
         tools:layout_editor_absoluteY="408dp" />
 
+    <TextView
+        android:id="@+id/tvHeartrate"
+        android:layout_width="wrap_content"
+        android:layout_height="51dp"
+       android:layout_gravity="center"
+        android:text="TextView" />
+
     <ListView
         android:id="@+id/lvData"
         android:layout_width="match_parent"

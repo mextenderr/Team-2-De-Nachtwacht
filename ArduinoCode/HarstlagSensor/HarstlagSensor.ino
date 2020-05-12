@@ -48,14 +48,17 @@ void loop()
   if(debug.available() >0){
     receivedData = debug.read();
     if(receivedData == 48){
+      String message = "*";
       for(int i = 65; i<= 90; i++){
         int red= particleSensor.getRed();
         int IR =  particleSensor.getIR();
         int green = particleSensor.getGreen();
-        String message = " R[" + String(red)  + "] IR[" + String(IR) +  "] G[" +String(green) +"]"; 
-        debug.print(message);
+        message = " R[" + String(red)  + "] IR[" + String(IR) +  "] G[" +String(green) +"]"; 
+        message += "||";
         delay(50);
       }
+      message += "*";
+      debug.print(message);
     }
   }
  

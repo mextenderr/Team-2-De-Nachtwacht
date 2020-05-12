@@ -39,7 +39,7 @@ cursor = connection.cursor()
 app = Flask(__name__)
 
 
-@app.route( '/user', methods = ['GET', 'POST'] )
+@app.route( '/user', methods = ["GET", "POST"] )
 def registerUser():
 
     # GET requests are used to retreive al information about a user [args -> 'uid']
@@ -79,46 +79,46 @@ def registerUser():
         return jsonify( succes = True ) # this is a generated 200 response to the client side
 
 
-@app.route('/getsleepdata')
-def getSleepData():
-    user = request.args.get('uid', None)
+@app.route('/sleepdata', methods = ["GET", "POST"])
+def sleepData():
 
-    csvUser = getCsvForUser(user)
+    # Get method retreives sleepdata from a mentioned user
+    if request.method == "GET":
+        user = request.args.get('uid', None)
 
-    with open(csvUser, 'r') as file:
-        # TODO: return sleep data out of opened file
-        reader = csv.reader(file, delimiter=',')
+        csvUser = getCsvForUser(user)
 
+        with open(csvUser, 'r') as file:
+            # TODO: return sleep data out of opened file
+            reader = csv.reader(file, delimiter=',')
 
+        return
 
+    # Post method uploads data to database for mentioned user
+    if request.method == "POST":
+        # TODO: receive data in determined data structure
 
-    return
+        data = json.loads(request.data, strict=False)
+        user = data["uid"]
+        time = data["time"]
+        heartrate = data["hr"]
 
+        # retreiving path to users' csv file
+        csvUser = getCsvForUser(user)
 
-@app.route('/uploadsleepdata')
-def uploadSleepData():
-    # TODO: receive data in determined data structure
+        # opening a csv file with parameter 'a' will allow appending rows at end of file
+        with open(csvUser, 'a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([time, heartrate])
 
-    user = request.args.get('uid', None)
-    time = request.args.get('time', None)
-    heartrate = request.args.get('hr', None)
-
-    # retreiving path to users' csv file
-    csvUser = getCsvForUser(user)
-
-    # opening a csv file with parameter 'a' will allow appending rows at end of file
-    with open(csvUser, 'a', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow([time, heartrate])
-
-    return jsonify( succes = True )
+        return jsonify( succes=True )
 
 
 
 def getCsvForUser(user):
     # returns the path to the user's csv file
 
-    cursor.execute("""select csvfilename from "Users" where username = %s""", (user,))
+    cursor.execute("""select csvfilename from "Users" where uid = %s""", (user,))
     return str(cursor.fetchone()[0])
 
 

@@ -2,7 +2,7 @@ from flask import Flask
 from flask import request
 from flask import jsonify
 from random import randint
-import pandas
+import Data_Analysis as da
 import json
 import csv
 import psycopg2
@@ -59,9 +59,9 @@ def registerUser():
     # POST requests are used to store new user entries in the database
     if request.method == "POST":
 
-        data = json.loads(request.data, strict=False)   # getting the body out of the post request
-        username = data["username"]
-        password = data["password"]
+        body = json.loads(request.data, strict=False)   # getting the body out of the post request
+        username = body["username"]
+        password = body["password"]
 
         # making a csv file to store incomming sleep data on
         csvFileName = username + '_' + str(randint(1000, 9999)) + '_sleepData.csv'
@@ -83,33 +83,31 @@ def registerUser():
 @app.route('/sleepdata', methods = ["GET", "POST"])
 def sleepData():
 
-    # Get method retreives sleepdata from a mentioned user
+    # Args      -> uid | size(Amount of data points)
+    # Returns   -> JSON array of Time/Heartrate Tuples
     if request.method == "GET":
         user = request.args.get('uid', None)
+        size = int(request.args.get('size', None))
 
         csvUser = getCsvForUser(user)
 
         with open(csvUser, 'r') as file:
             data = []
-            csv_reader = csv.reader(file, delimiter=',')
+            csv_reader = list(reversed(list(csv.reader(file, delimiter=','))))
             line = 0
-            for row in csv_reader:
-                if line != 0:
-                    data.append(row)
-                if line == 0:
-                    line += 1
+            while line < size and line < len(csv_reader) - 1:
+                data.append(csv_reader[line])
+                line += 1
 
         return json.dumps(data)
 
     # Post method uploads data to database for mentioned user
     if request.method == "POST":
-        # TODO: receive data in determined data structure
 
         body = json.loads(request.data, strict=False)
         user = body["uid"]
         data = body["data"]
 
-        # retreiving path to users' csv file
         csvUser = getCsvForUser(user)
 
         # opening a csv file with parameter 'a' will allow appending rows at end of file
@@ -119,20 +117,30 @@ def sleepData():
             for row in data:
                 writer.writerow([row[0], row[1]])
 
+        with open(csvUser, 'r') as file:
+            userData = list(reversed(list(csv.reader(file, delimiter=','))))
+            analyseResult = da.analyseData(userData[:100])
 
-        return jsonify( succes=True )
+        res = json.dumps({ "succes" : True , "wakeup" : analyseResult})
 
+        return res
 
-
-def getCsvForUser(user):
-    # returns the path to the user's csv file
-
-    cursor.execute("""select csvfilename from "Users" where uid = %s""", (user,))
-    return str(cursor.fetchone()[0])
 
 
 # END:    http requests     #
 
+
+
+# START:  global funcs      #
+
+def getCsvForUser(user):
+    # returns the path to the user's csv file
+
+    cursor.execute("""select csvfilename from "Users" where username = %s""", (user,))
+    return str(cursor.fetchone()[0])
+
+
+# END:   global funcs       #
 
 
 if __name__ == '__main__':

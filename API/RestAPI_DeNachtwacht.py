@@ -2,6 +2,7 @@ from flask import Flask
 from flask import request
 from flask import jsonify
 from random import randint
+import json
 import csv
 import psycopg2
 import datetime
@@ -38,19 +39,28 @@ cursor = connection.cursor()
 app = Flask(__name__)
 
 
-@app.route( '/user', methods = ["GET", "POST"] )
+@app.route( '/user', methods = ['GET', 'POST'] )
 def registerUser():
 
     # GET requests are used to retreive al information about a user [args -> 'uid']
     if request.method == "GET":
         # out of request we can extract the arguments given in the http request (account details)
-        user = request.args.get('uid', None)
+        userid = request.args.get('uid', None)
+
+        cursor.execute(
+            """select * from "Users" where uid = %s""", (userid,)
+        )
+        userinfo = cursor.fetchall()[0]
+        usrdict = {"uid":userinfo[0], "username":userinfo[1], "password":userinfo[2], "csv":userinfo[3]}
+
+        return usrdict
 
     # POST requests are used to store new user entries in the database
     if request.method == "POST":
 
-        username = request.form["username"]
-        password = request.form["password"]
+        data = json.loads(request.data, strict=False)   # getting the body out of the post request
+        username = data["username"]
+        password = data["password"]
 
         # making a csv file to store incomming sleep data on
         csvFileName = username + '_' + str(randint(1000, 9999)) + '_sleepData.csv'
@@ -61,7 +71,7 @@ def registerUser():
 
         # storing user account details in database and refering the csv file linked to the account
         cursor.execute(
-            """insert into "Users"(username, password, csvfilename) values(%s, %s, %s)""" , ( user, password, csvFileName )
+            """insert into "Users"(username, password, csvfilename) values(%s, %s, %s)""" , ( username, password, csvFileName )
         )
         connection.commit()
 

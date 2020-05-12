@@ -1,4 +1,6 @@
 .idea
+.csv
+.pyc
 *.iml
 .gradle
 /local.properties
@@ -13,4 +15,3 @@
 /captures
 .externalNativeBuild
 .cxx
-.csv

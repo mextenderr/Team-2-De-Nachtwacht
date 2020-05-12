@@ -1,0 +1,12 @@
+- Users table -
+
+    create table "Users"
+    (
+    uid serial primary key not null,
+    username varchar(30) not null,
+    password varchar(30) not null,
+    csvfilename varchar(50) not null
+    )
+
+
+

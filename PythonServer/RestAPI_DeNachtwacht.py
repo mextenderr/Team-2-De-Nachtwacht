@@ -38,28 +38,35 @@ cursor = connection.cursor()
 app = Flask(__name__)
 
 
-@app.route('/registeruser')
+@app.route( '/user', methods = ["GET", "POST"] )
 def registerUser():
-    # out of request we can extract the arguments given in the http request (account details)
-    user = request.args.get('uid', None)
-    password = request.args.get('psw', None)
 
-    # making a csv file to store incomming sleep data on
-    csvFileName = user + '_' + str(randint(1000, 9999)) + '_sleepData.csv'
+    # GET requests are used to retreive al information about a user [args -> 'uid']
+    if request.method == "GET":
+        # out of request we can extract the arguments given in the http request (account details)
+        user = request.args.get('uid', None)
 
-    with open(csvFileName, 'w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(['time', 'heartrate'])
+    # POST requests are used to store new user entries in the database
+    if request.method == "POST":
 
+        username = request.form["username"]
+        password = request.form["password"]
 
-    # storing user account details in database and refering the csv file linked to the account
-    cursor.execute(
-        """insert into "Users"(username, password, csvfilename) values(%s, %s, %s)""" , ( user, password, csvFileName )
-    )
-    connection.commit()
+        # making a csv file to store incomming sleep data on
+        csvFileName = username + '_' + str(randint(1000, 9999)) + '_sleepData.csv'
 
-    # returning a succes response to the client
-    return jsonify( succes = True ) # this is a generated 200 response to the client side
+        with open(csvFileName, 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(['time', 'heartrate'])
+
+        # storing user account details in database and refering the csv file linked to the account
+        cursor.execute(
+            """insert into "Users"(username, password, csvfilename) values(%s, %s, %s)""" , ( user, password, csvFileName )
+        )
+        connection.commit()
+
+        # returning a succes response to the client
+        return jsonify( succes = True ) # this is a generated 200 response to the client side
 
 
 @app.route('/getsleepdata')

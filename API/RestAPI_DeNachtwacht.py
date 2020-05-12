@@ -89,7 +89,7 @@ def sleepData():
 
         csvUser = getCsvForUser(user)
 
-        allData = pandas.read_csv(csvUser) # Contains all sleepdata from users' csv file
+        allUserData = pandas.read_csv(csvUser) # Contains all sleepdata from users' csv file
 
         return jsonify( succes = True )
 

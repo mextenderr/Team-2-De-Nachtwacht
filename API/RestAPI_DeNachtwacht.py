@@ -89,18 +89,25 @@ def sleepData():
 
         csvUser = getCsvForUser(user)
 
-        allUserData = pandas.read_csv(csvUser) # Contains all sleepdata from users' csv file
+        with open(csvUser, 'r') as file:
+            data = []
+            csv_reader = csv.reader(file, delimiter=',')
+            line = 0
+            for row in csv_reader:
+                if line != 0:
+                    data.append(row)
+                if line == 0:
+                    line += 1
 
-        return jsonify( succes = True )
+        return json.dumps(data)
 
     # Post method uploads data to database for mentioned user
     if request.method == "POST":
         # TODO: receive data in determined data structure
 
-        data = json.loads(request.data, strict=False)
-        user = data["uid"]
-        time = data["time"]
-        heartrate = data["hr"]
+        body = json.loads(request.data, strict=False)
+        user = body["uid"]
+        data = body["data"]
 
         # retreiving path to users' csv file
         csvUser = getCsvForUser(user)
@@ -108,7 +115,10 @@ def sleepData():
         # opening a csv file with parameter 'a' will allow appending rows at end of file
         with open(csvUser, 'a', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow([time, heartrate])
+
+            for row in data:
+                writer.writerow([row[0], row[1]])
+
 
         return jsonify( succes=True )
 

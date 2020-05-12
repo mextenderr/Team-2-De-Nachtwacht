@@ -2,6 +2,7 @@ from flask import Flask
 from flask import request
 from flask import jsonify
 from random import randint
+import pandas
 import json
 import csv
 import psycopg2
@@ -88,11 +89,9 @@ def sleepData():
 
         csvUser = getCsvForUser(user)
 
-        with open(csvUser, 'r') as file:
-            # TODO: return sleep data out of opened file
-            reader = csv.reader(file, delimiter=',')
+        allData = pandas.read_csv(csvUser) # Contains all sleepdata from users' csv file
 
-        return
+        return jsonify( succes = True )
 
     # Post method uploads data to database for mentioned user
     if request.method == "POST":

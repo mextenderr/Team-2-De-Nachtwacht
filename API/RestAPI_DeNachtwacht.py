@@ -110,16 +110,25 @@ def sleepData():
 
         csvUser = getCsvForUser(user)
 
-        # opening a csv file with parameter 'a' will allow appending rows at end of file
+        # Writing the new datapoints to csv file of user
         with open(csvUser, 'a', newline='') as file:
             writer = csv.writer(file)
 
             for row in data:
                 writer.writerow([row[0], row[1]])
 
+        # Analyzing new data to check if a 'wakeUp' response is needed
         with open(csvUser, 'r') as file:
-            userData = list(reversed(list(csv.reader(file, delimiter=','))))
-            analyseResult = da.analyseData(userData[:100])
+            csvIterator = csv.reader(file, delimiter=',')
+            next(csvIterator)
+            dataPoints = list(csvIterator)[:100]
+
+        heartrates = []
+        for datapoint in dataPoints:
+            heartrates.append(datapoint[1])
+        dataForAnalysis = list(reversed(heartrates))
+
+        analyseResult = da.analyseData(dataForAnalysis)
 
         res = json.dumps({ "succes" : True , "wakeup" : analyseResult})
 
@@ -136,7 +145,7 @@ def sleepData():
 def getCsvForUser(user):
     # returns the path to the user's csv file
 
-    cursor.execute("""select csvfilename from "Users" where username = %s""", (user,))
+    cursor.execute("""select csvfilename from "Users" where uid = %s""", (user,))
     return str(cursor.fetchone()[0])
 
 

@@ -13,7 +13,11 @@ class AlarmState extends State{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return null;
+    return Scaffold(
+      appBar: AppBar(
+        title:  Text("alarm"),
+      ),
+    );
   }
   
 } 

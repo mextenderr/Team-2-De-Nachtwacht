@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool waiting = false;
   String _response = "";
   void _toBluetoothPage() {
-    Navigator.push(context,  MaterialPageRoute(builder: (context) => Bluetooth(title: "Bluetooth")),);
+    Navigator.push(context,  MaterialPageRoute(builder: (context) => Bluetooth()),);
 
   }
 
@@ -73,10 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<String> _request() async{
 
-    final response = await http.post("http://127.0.0.1:5001/true", body: json.encode({
-      "uid": user.id,
-      "data": user.data
-    });
+    final response = await http.get("http://127.0.0.1:5001/true");
     return response.body;
   }
   

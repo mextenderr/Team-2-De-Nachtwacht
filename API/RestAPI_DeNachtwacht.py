@@ -2,7 +2,7 @@ from flask import Flask
 from flask import request
 from flask import jsonify
 from random import randint
-import pandas
+import Data_Analysis as da
 import json
 import csv
 import psycopg2
@@ -59,9 +59,9 @@ def registerUser():
     # POST requests are used to store new user entries in the database
     if request.method == "POST":
 
-        data = json.loads(request.data, strict=False)   # getting the body out of the post request
-        username = data["username"]
-        password = data["password"]
+        body = json.loads(request.data, strict=False)   # getting the body out of the post request
+        username = body["username"]
+        password = body["password"]
 
         # making a csv file to store incomming sleep data on
         csvFileName = username + '_' + str(randint(1000, 9999)) + '_sleepData.csv'
@@ -83,36 +83,64 @@ def registerUser():
 @app.route('/sleepdata', methods = ["GET", "POST"])
 def sleepData():
 
-    # Get method retreives sleepdata from a mentioned user
+    # Args      -> uid | size(Amount of data points)
+    # Returns   -> JSON array of Time/Heartrate Tuples
     if request.method == "GET":
         user = request.args.get('uid', None)
+        size = int(request.args.get('size', None))
 
         csvUser = getCsvForUser(user)
 
-        allData = pandas.read_csv(csvUser) # Contains all sleepdata from users' csv file
+        with open(csvUser, 'r') as file:
+            data = []
+            csv_reader = list(reversed(list(csv.reader(file, delimiter=','))))
+            line = 0
+            while line < size and line < len(csv_reader) - 1:
+                data.append(csv_reader[line])
+                line += 1
 
-        return jsonify( succes = True )
+        return json.dumps(data)
 
     # Post method uploads data to database for mentioned user
     if request.method == "POST":
-        # TODO: receive data in determined data structure
 
-        data = json.loads(request.data, strict=False)
-        user = data["uid"]
-        time = data["time"]
-        heartrate = data["hr"]
+        body = json.loads(request.data, strict=False)
+        user = body["uid"]
+        data = body["data"]
 
-        # retreiving path to users' csv file
         csvUser = getCsvForUser(user)
 
-        # opening a csv file with parameter 'a' will allow appending rows at end of file
+        # Writing the new datapoints to csv file of user
         with open(csvUser, 'a', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow([time, heartrate])
 
-        return jsonify( succes=True )
+            for row in data:
+                writer.writerow([row[0], row[1]])
+
+        # Analyzing new data to check if a 'wakeUp' response is needed
+        with open(csvUser, 'r') as file:
+            csvIterator = csv.reader(file, delimiter=',')
+            next(csvIterator)
+            dataPoints = list(csvIterator)[:100]
+
+        heartrates = []
+        for datapoint in dataPoints:
+            heartrates.append(datapoint[1])
+        dataForAnalysis = list(reversed(heartrates))
+
+        analyseResult = da.analyseData(dataForAnalysis)
+
+        res = json.dumps({ "succes" : True , "wakeup" : analyseResult})
+
+        return res
 
 
+
+# END:    http requests     #
+
+
+
+# START:  global funcs      #
 
 def getCsvForUser(user):
     # returns the path to the user's csv file
@@ -121,8 +149,7 @@ def getCsvForUser(user):
     return str(cursor.fetchone()[0])
 
 
-# END:    http requests     #
-
+# END:   global funcs       #
 
 
 if __name__ == '__main__':

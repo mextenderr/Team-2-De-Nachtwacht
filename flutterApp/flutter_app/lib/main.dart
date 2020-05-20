@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/alarm.dart';
+import 'package:flutter_app/chart.dart';
 import 'package:flutter_app/bluetooth.dart';
 import 'package:http/http.dart' as http;
 void main() => runApp(MyApp());
@@ -51,6 +52,10 @@ class _MyHomePageState extends State<MyHomePage> {
   String _response = "";
   void _toBluetoothPage() {
     Navigator.push(context,  MaterialPageRoute(builder: (context) => Bluetooth()),);
+
+  }
+  void _toChartPage() {
+    Navigator.push(context,  MaterialPageRoute(builder: (context) => Chart()),);
 
   }
 
@@ -116,7 +121,9 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             FlatButton(onPressed: _toAlarmPage, child: Text("Alarm")),
             FlatButton(onPressed: _toBluetoothPage, child: Text("Bluetooth")),
+            FlatButton(onPressed: _toChartPage, child: Text("Chart")),
             FlatButton(onPressed: _sendRequest, child: Text("httpRequest")),
+
             waiting ? Text("wachten...") : Text("server zegt $_response")
           ],
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/alarm.dart';
 import 'package:flutter_app/bluetooth.dart';
+import 'package:flutter_app/login_page.dart';
 import 'package:http/http.dart' as http;
 void main() => runApp(MyApp());
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+          primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -49,6 +50,10 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   bool waiting = false;
   String _response = "";
+  void _toInlogPage() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()),);
+  }
+
   void _toBluetoothPage() {
     Navigator.push(context,  MaterialPageRoute(builder: (context) => Bluetooth()),);
 
@@ -114,6 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            FlatButton(onPressed: _toInlogPage, child: Text("Log in")),
             FlatButton(onPressed: _toAlarmPage, child: Text("Alarm")),
             FlatButton(onPressed: _toBluetoothPage, child: Text("Bluetooth")),
             FlatButton(onPressed: _sendRequest, child: Text("httpRequest")),
@@ -121,7 +127,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-     
     );
   }
 }

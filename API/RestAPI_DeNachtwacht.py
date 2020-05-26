@@ -62,6 +62,8 @@ def user():
 
         body = json.loads(request.data, strict=False)   # getting the body out of the post request
         username = body["username"]
+        name = body["name"]
+        age = body["age"]
         password = body["password"]
 
         # making a csv file to store incomming sleep data on
@@ -73,7 +75,7 @@ def user():
 
         # storing user account details in database and refering the csv file linked to the account
         cursor.execute(
-            """insert into "Users"(username, password, csvfilename) values(%s, %s, %s)""" , ( username, password, csvFileName )
+            """insert into "Users"(username, name, age, password, csvfilename) values(%s, %s, %s, %s, %s)""" , ( username, name, age, password, csvFileName )
         )
         connection.commit()
 

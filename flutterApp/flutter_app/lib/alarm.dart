@@ -1,5 +1,6 @@
 //import 'dart:html';
 //import 'dart:typed_data';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 //import 'dart:async';
 //import 'dart:io';
@@ -17,11 +18,12 @@ class Alarm extends StatefulWidget {
 }
 
 class AlarmState extends State {
-  static AudioCache player = new AudioCache();
+  
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    AudioPlayer advancedPlayer = new AudioPlayer();
+    AudioCache audioCache = new AudioCache(fixedPlayer: advancedPlayer);
 
     return Scaffold(
       appBar: AppBar(
@@ -32,7 +34,7 @@ class AlarmState extends State {
           FlatButton(
             onPressed: () {
               const alarmAudioPath = "alarmsound1.mp3";
-              player.play(alarmAudioPath);
+              audioCache.play(alarmAudioPath);
             },
             child: Text(
               'Click for sound',
@@ -40,7 +42,15 @@ class AlarmState extends State {
             ),
           ),
           FlatButton(
-            onPressed: () {},
+            onPressed: (){
+              advancedPlayer.pause();
+            },
+            child: Text("Geluid pauseren")
+            ),
+          FlatButton(
+            onPressed: () {
+              advancedPlayer.stop();
+            },
             child: Text("Geluid stoppen"),
           )
         ],

@@ -1,7 +1,8 @@
 from flask import Flask
 from flask import request
 from flask import jsonify
-from random import randint
+from random import randint, sample
+import statistics as st
 import Data_Analysis as da
 import json
 import csv
@@ -151,14 +152,19 @@ def analyse(givenCsv):
             csvIterator = csv.reader(file, delimiter=',')
             next(csvIterator)
             dataPoints = list(csvIterator)
-            if len(dataPoints) > 100:
-                dataPoints = dataPoints[:100]
 
         heartrates = []
         for datapoint in dataPoints:
-            heartrates.append(datapoint[1])
+            heartrates.append(int(datapoint[1]))
 
-        analyseResult = da.analyseData(heartrates)
+        std = st.stdev(sample(heartrates, int(len(heartrates)*0.9))) # calculating the standard deviation with a sample of heartrates
+        usersAvg = sum(heartrates) / len(heartrates)
+        print(std, usersAvg)
+
+        if len(dataPoints) > 100:
+            heartrates = dataPoints[:100]
+
+        analyseResult = da.analyseData(heartrates, usersAvg, std)
 
         return analyseResult
 

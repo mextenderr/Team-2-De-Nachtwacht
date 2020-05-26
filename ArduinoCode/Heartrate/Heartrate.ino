@@ -29,6 +29,8 @@
 #include "heartRate.h"
 
 MAX30105 particleSensor;
+static unsigned long lastRefreshTime = 0;
+bool doUpdateStatus = false;
 
 const byte RATE_SIZE = 4; //Increase this for more averaging. 4 is good.
 byte rates[RATE_SIZE]; //Array of heart rates
@@ -36,67 +38,115 @@ byte rateSpot = 0;
 long lastBeat = 0; //Time at which the last beat occurred
 
 float beatsPerMinute;
-int beatAvg;
+int beatAvg = 0;
 
 byte receivedData;
 void setup()
 {
   Serial.begin(9600);
-  Serial.println("Initializing...");
+//  Serial.println("Initializing...");
 
   // Initialize sensor
-  if (!particleSensor.begin(Wire, I2C_SPEED_FAST)) //Use default I2C port, 400kHz speed
-  {
-    Serial.println("MAX30105 was not found. Please check wiring/power. ");
-    while (1);
-  }
-  Serial.println("Place your index finger on the sensor with steady pressure.");
-
-  particleSensor.setup(); //Configure sensor with default settings
-  particleSensor.setPulseAmplitudeRed(0x0A); //Turn Red LED to low to indicate sensor is running
-  particleSensor.setPulseAmplitudeGreen(0); //Turn off Green LED
+//  if (!particleSensor.begin(Wire, I2C_SPEED_FAST)) //Use default I2C port, 400kHz speed
+//  {
+//    Serial.println("MAX30105 was not found. Please check wiring/power. ");
+//    while (1);
+//  }
+//  Serial.println("Place your index finger on the sensor with steady pressure.");
+//
+//  particleSensor.setup(); //Configure sensor with default settings
+//  particleSensor.setPulseAmplitudeRed(0x0A); //Turn Red LED to low to indicate sensor is running
+//  particleSensor.setPulseAmplitudeGreen(0); //Turn off Green LED
 }
+
+
+void update(){
+  beatAvg = beatAvg + 1; 
+  if(beatAvg >= 10){
+    beatAvg = 0; 
+  }
+}
+
+void send(){
+
+  if (millis() - lastRefreshTime >= 1000) {
+    lastRefreshTime += 1000;
+    
+    if (doUpdateStatus) {
+      // Every update there are temperatures and water pH level sent coded into binary form of:
+      // 't', 
+      // integer part of value in Celcius of first termometer, 
+      // fractional part of value in Celcius of first termometer,
+      // integer part of value in Celcius of second termometer, 
+      // fractional part of value in Celcius of second termometer,
+      // 'w'
+      // integer value of water pH level, 
+      // fractional part of water pH level.
+      
+      Serial.write('t');
+      Serial.write(static_cast<byte>(static_cast<int>(beatAvg)));
+
+    }
+  }
+}
+
+
 
 void loop()
 {
-  long irValue = particleSensor.getIR();
+  delay(1);
+  update();
+  send();
 
-  if (checkForBeat(irValue) == true)
-  {
-    //We sensed a beat!
-    long delta = millis() - lastBeat;
-    lastBeat = millis();
-
-    beatsPerMinute = 60 / (delta / 1000.0);
-
-    if (beatsPerMinute < 255 && beatsPerMinute > 20)
-    {
-      rates[rateSpot++] = (byte)beatsPerMinute; //Store this reading in the array
-      rateSpot %= RATE_SIZE; //Wrap variable
-
-      //Take average of readings
-      beatAvg = 0;
-      for (byte x = 0 ; x < RATE_SIZE ; x++)
-        beatAvg += rates[x];
-      beatAvg /= RATE_SIZE;
+  while (Serial.available() >= 4) {
+    switch (Serial.read()) {
+      case 's':
+        Serial.read(); // Ignore (probably) 't'
+        switch (Serial.read()) {
+          case 'a': // "start"
+            doUpdateStatus = true;
+            digitalWrite(13, HIGH);
+            
+            Serial.read(); // Ignore 'r'
+            while (Serial.available() == 0);
+            Serial.read(); // Ignore 't'
+            break;
+            
+          case 'o': // "stop"
+            doUpdateStatus = false;
+            digitalWrite(13, LOW);
+            
+            Serial.read(); // Ignore 'p'
+        }
+        break;
     }
-   
   }
-    receivedData = Serial.read();
-    String msg = "";
-    if(receivedData == 48){
-      msg += "IR=";
-      msg += irValue;
-      msg += ", BPM=";
-      msg += beatsPerMinute;
-      msg += ", Avg BPM=";
-      msg += beatAvg;
-    
-      if (irValue < 50000)
-       msg += " No finger?";
 
-      Serial.print(msg);
+  
+//  long irValue = particleSensor.getIR();
+//
+//  if (checkForBeat(irValue) == true)
+//  {
+//    //We sensed a beat!
+//    long delta = millis() - lastBeat;
+//    lastBeat = millis();
+//
+//    beatsPerMinute = 60 / (delta / 1000.0);
+//
+//    if (beatsPerMinute < 255 && beatsPerMinute > 20)
+//    {
+//      rates[rateSpot++] = (byte)beatsPerMinute; //Store this reading in the array
+//      rateSpot %= RATE_SIZE; //Wrap variable
+//
+//      //Take average of readings
+//      beatAvg = 0;
+//      for (byte x = 0 ; x < RATE_SIZE ; x++)
+//        beatAvg += rates[x];
+//      beatAvg /= RATE_SIZE;
+//    }
+//   
+//  }
+
     }
 
     
-}

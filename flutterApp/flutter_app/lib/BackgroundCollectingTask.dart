@@ -48,7 +48,7 @@ class BackgroundCollectingTask extends Model {
               heartrate: (_buffer[index + 1] *  1.0),
               timestamp: DateTime.now());
           _buffer.removeRange(0, index + 2);
-          print(sample);
+          print(sample.heartrate);
           samples.add(sample);
           notifyListeners(); // Note: It shouldn't be invoked very often - in this example data comes at every second, but if there would be more data, it should update (including repaint of graphs) in some fixed interval instead of after every sample.
           //print("${sample.timestamp.toString()} -> ${sample.temperature1} / ${sample.temperature2}");

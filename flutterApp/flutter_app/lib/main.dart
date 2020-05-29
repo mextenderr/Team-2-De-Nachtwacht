@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/alarm.dart';
 import 'package:flutter_app/bluetooth.dart';
 import 'package:http/http.dart' as http;
-void main() => runApp(MyApp());
+import 'package:provider/provider.dart';
+
+import 'models/user.dart';
+void main() => runApp(
+  MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -22,7 +26,8 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home:
+       MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }

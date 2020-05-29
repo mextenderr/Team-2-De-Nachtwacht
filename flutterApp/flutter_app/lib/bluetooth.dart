@@ -166,20 +166,7 @@ class BluetoothPageState extends State {
             ListTile(
               title: RaisedButton(
                 child: const Text('View background collected data'),
-                onPressed: (_collectingTask != null)
-                    ? () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return ScopedModel<BackgroundCollectingTask>(
-                                model: _collectingTask,
-                                child: BackgroundCollectedPage(),
-                              );
-                            },
-                          ),
-                        );
-                      }
-                    : null,
+                onPressed: null,
               ),
             ),
         ])));

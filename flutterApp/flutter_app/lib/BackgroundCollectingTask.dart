@@ -1,7 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/user.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:provider/provider.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:http/http.dart' as http;
+import 'constants.dart' as constants;
 
 class DataSample {
   double heartrate;
@@ -13,16 +17,7 @@ class DataSample {
   });
 }
 
-class BackgroundCollectingTask extends Model {
-  static BackgroundCollectingTask of(
-    BuildContext context, {
-    bool rebuildOnChange = false,
-  }) =>
-      ScopedModel.of<BackgroundCollectingTask>(
-        context,
-        rebuildOnChange: rebuildOnChange,
-      );
-
+class BackgroundCollectingTask {
   final BluetoothConnection _connection;
   List<int> _buffer = List<int>();
 
@@ -30,28 +25,26 @@ class BackgroundCollectingTask extends Model {
   // (via `Stream<DataSample>` preferably) and then saved for later
   // displaying on chart (or even stright prepare for displaying).
   // @TODO ? should be shrinked at some point, endless colleting data would cause memory shortage.
-  List<DataSample> samples = List<DataSample>();
+  List samples = [];
 
   bool inProgress;
 
   BackgroundCollectingTask._fromConnection(this._connection) {
     _connection.input.listen((data) {
-       print('dataa');
+      print('dataa');
       _buffer += data;
 
+      var collectedData = [];
       while (true) {
         // If there is a sample, and it is full sent
         int index = _buffer.indexOf('t'.codeUnitAt(0));
-       
+        var datasample = {};
         if (index >= 0 && _buffer.length - index >= 2) {
-          final DataSample sample = DataSample(
-              heartrate: (_buffer[index + 1] *  1.0),
-              timestamp: DateTime.now());
+          datasample["heartrate"] = (_buffer[index + 1] * 1.0);
+          datasample["timestamp"] = DateTime.now();
+          _addSample(datasample);
+
           _buffer.removeRange(0, index + 2);
-          print(sample.heartrate);
-          samples.add(sample);
-          notifyListeners(); // Note: It shouldn't be invoked very often - in this example data comes at every second, but if there would be more data, it should update (including repaint of graphs) in some fixed interval instead of after every sample.
-          //print("${sample.timestamp.toString()} -> ${sample.temperature1} / ${sample.temperature2}");
         }
         // Otherwise break
         else {
@@ -60,7 +53,6 @@ class BackgroundCollectingTask extends Model {
       }
     }).onDone(() {
       inProgress = false;
-      notifyListeners();
     });
   }
 
@@ -79,7 +71,7 @@ class BackgroundCollectingTask extends Model {
     inProgress = true;
     _buffer.clear();
     samples.clear();
-    notifyListeners();
+
     _connection.output.add(ascii.encode('start'));
     await _connection.output.allSent;
     print("started");
@@ -87,21 +79,21 @@ class BackgroundCollectingTask extends Model {
 
   Future<void> cancel() async {
     inProgress = false;
-    notifyListeners();
+
     _connection.output.add(ascii.encode('stop'));
     await _connection.finish();
   }
 
   Future<void> pause() async {
     inProgress = false;
-    notifyListeners();
+
     _connection.output.add(ascii.encode('stop'));
     await _connection.output.allSent;
   }
 
   Future<void> reasume() async {
     inProgress = true;
-    notifyListeners();
+
     _connection.output.add(ascii.encode('start'));
     await _connection.output.allSent;
   }
@@ -116,5 +108,24 @@ class BackgroundCollectingTask extends Model {
       }
     } while (samples[i].timestamp.isAfter(startingTime));
     return samples.getRange(i, samples.length);
+  }
+
+  void _addSample(Map datasample) {
+    samples.add(datasample);
+    if (samples.length >= 4) {
+      _sendToServer();
+    }
+  }
+
+  void _sendToServer() async{
+    var user = User();
+    var data = json.encode(
+      {
+        "uid": user.uid,
+        "data": this.samples
+      }
+  );
+    var response = await http.post(constants.URL, body:data);
+
   }
 }

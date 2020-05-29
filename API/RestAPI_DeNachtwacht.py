@@ -1,7 +1,8 @@
 from flask import Flask
 from flask import request
 from flask import jsonify
-from random import randint
+from random import randint, sample
+import statistics as st
 import Data_Analysis as da
 import json
 import csv
@@ -23,7 +24,8 @@ try:
 
     print("--- Server established connection with the database ---\n")
 
-except:
+except Exception as e:
+    print(e)
     print("--- Server could not establish connection with database ---\n")
 
 cursor = connection.cursor()
@@ -39,9 +41,13 @@ cursor = connection.cursor()
 
 app = Flask(__name__)
 
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({'error': 'Not found'})
+
 
 @app.route( '/user', methods = ["GET", "POST"] )
-def registerUser():
+def user():
 
     # GET requests are used to retreive al information about a user [args -> 'uid']
     if request.method == "GET":
@@ -61,18 +67,21 @@ def registerUser():
 
         body = json.loads(request.data, strict=False)   # getting the body out of the post request
         username = body["username"]
+        name = body["name"]
+        age = body["age"]
         password = body["password"]
+
 
         # making a csv file to store incomming sleep data on
         csvFileName = username + '_' + str(randint(1000, 9999)) + '_sleepData.csv'
 
-        with open(csvFileName, 'w', newline='') as file:
+        with open("DataStorage\\" + csvFileName, 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(['time', 'heartrate'])
 
         # storing user account details in database and refering the csv file linked to the account
         cursor.execute(
-            """insert into "Users"(username, password, csvfilename) values(%s, %s, %s)""" , ( username, password, csvFileName )
+            """insert into "Users"(username, name, age, password, csvfilename) values(%s, %s, %s, %s, %s)""" , ( username, name, age, password, csvFileName )
         )
         connection.commit()
 
@@ -117,23 +126,20 @@ def sleepData():
             for row in data:
                 writer.writerow([row[0], row[1]])
 
-        # Analyzing new data to check if a 'wakeUp' response is needed
-        with open(csvUser, 'r') as file:
-            csvIterator = csv.reader(file, delimiter=',')
-            next(csvIterator)
-            dataPoints = list(csvIterator)[:100]
-
-        heartrates = []
-        for datapoint in dataPoints:
-            heartrates.append(datapoint[1])
-        dataForAnalysis = list(reversed(heartrates))
-
-        analyseResult = da.analyseData(dataForAnalysis)
+        analyseResult = analyse(csvUser)
 
         res = json.dumps({ "succes" : True , "wakeup" : analyseResult})
 
         return res
 
+
+@app.route('/checkforwakeup', methods = ["GET"])
+def checkForWakeUp():
+    user = request.args.get('uid', None)
+
+    res = analyse(getCsvForUser(user))
+
+    return json.dumps({"wakeup" : res})
 
 
 # END:    http requests     #
@@ -146,12 +152,33 @@ def getCsvForUser(user):
     # returns the path to the user's csv file
 
     cursor.execute("""select csvfilename from "Users" where uid = %s""", (user,))
-    return str(cursor.fetchone()[0])
+    path = "DataStorage\\" + str(cursor.fetchone()[0])
+    return path
 
+def analyse(givenCsv):
+        with open(givenCsv, 'r') as file:
+            csvIterator = csv.reader(file, delimiter=',')
+            next(csvIterator)
+            dataPoints = list(csvIterator)
+
+        heartrates = []
+        for datapoint in dataPoints:
+            heartrates.append(int(datapoint[1]))
+
+        std = st.stdev(sample(heartrates, int(len(heartrates)*0.9))) # calculating the standard deviation with a sample of heartrates
+        usersAvg = sum(heartrates) / len(heartrates)
+        print(std, usersAvg)
+
+        if len(dataPoints) > 100:
+            heartrates = dataPoints[:100]
+
+        analyseResult = da.analyseData(heartrates, usersAvg, std)
+
+        return analyseResult
 
 # END:   global funcs       #
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
 

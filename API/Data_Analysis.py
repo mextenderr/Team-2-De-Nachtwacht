@@ -1,11 +1,29 @@
 
-def analyseData( data ):
-    # input is a list of datapoints[time, heartrate]
+def analyseData( data, avgHr, std ):
+    # input is a list of datapoints[time, heartrate] of n length ordered with newest first
 
-    #TODO: Algorithm to detect a nightmare...
+    #sensitivity = 1.3   # Dynamisch maken
+    durability = 3
 
-    wakeUp = False
+    total = 0
+    count = 0
+    alerter = 0
+    while count < len(data):
+        # Calculating base values
+        heartRate = data[count]
+        count += 1
 
-    return wakeUp
+        # print(heartRate, avg, count)
+        maxHr = avgHr * (std/100 + 1)
 
+        if heartRate > maxHr:
+            alerter += 1
+        else:
+            alerter = 0
 
+        # When a alerting heartbeat is measured over mentioned durability a person is in a dream
+        if alerter >= durability:
+            print("Data line which caused wakeUp -> " + str(count))
+            return True
+
+    return False

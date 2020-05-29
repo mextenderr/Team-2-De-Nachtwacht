@@ -4,6 +4,8 @@
     (
     uid serial primary key not null,
     username varchar(30) not null,
+    name varchar(30) not null,
+    age integer not null,
     password varchar(30) not null,
     csvfilename varchar(50) not null
     )

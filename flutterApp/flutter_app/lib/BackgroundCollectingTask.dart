@@ -40,7 +40,7 @@ class BackgroundCollectingTask {
         int index = _buffer.indexOf('t'.codeUnitAt(0));
         var datasample = {};
         if (index >= 0 && _buffer.length - index >= 2) {
-          datasample["heartrate"] = (_buffer[index + 1] * 1.0);
+          datasample["heartrate"] = (_buffer[index + 1] );
           datasample["timestamp"] = DateTime.now().toString();
           _addSample(datasample);
 

@@ -1,5 +1,5 @@
 class User {
-  String uid;
+  int uid;
   User._privateConstructor();
 
   static final User _instance = User._privateConstructor();

@@ -41,7 +41,7 @@ class BackgroundCollectingTask {
         var datasample = {};
         if (index >= 0 && _buffer.length - index >= 2) {
           datasample["heartrate"] = (_buffer[index + 1] * 1.0);
-          datasample["timestamp"] = DateTime.now();
+          datasample["timestamp"] = DateTime.now().toString();
           _addSample(datasample);
 
           _buffer.removeRange(0, index + 2);
@@ -114,6 +114,7 @@ class BackgroundCollectingTask {
     samples.add(datasample);
     if (samples.length >= 4) {
       _sendToServer();
+      samples = [];
     }
   }
 
@@ -125,7 +126,7 @@ class BackgroundCollectingTask {
         "data": this.samples
       }
   );
-    var response = await http.post(constants.URL, body:data);
+    var response = await http.post(constants.URL + "/user", body:data);
 
   }
 }

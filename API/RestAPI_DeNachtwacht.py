@@ -24,7 +24,8 @@ try:
 
     print("--- Server established connection with the database ---\n")
 
-except:
+except Exception as e:
+    print(e)
     print("--- Server could not establish connection with database ---\n")
 
 cursor = connection.cursor()
@@ -39,6 +40,10 @@ cursor = connection.cursor()
 # START:    http requests     #
 
 app = Flask(__name__)
+
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({'error': 'Not found'})
 
 
 @app.route( '/user', methods = ["GET", "POST"] )
@@ -65,6 +70,7 @@ def user():
         name = body["name"]
         age = body["age"]
         password = body["password"]
+
 
         # making a csv file to store incomming sleep data on
         csvFileName = username + '_' + str(randint(1000, 9999)) + '_sleepData.csv'
@@ -174,5 +180,5 @@ def analyse(givenCsv):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
 

@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'constants.dart' as constants;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/main.dart';
@@ -50,7 +50,7 @@ class _RegisterPageState extends State<RegisterPage> {
     };
     var jsonData = null;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var response = await http.post("http://127.0.0.1:5001/register", body: data);
+    var response = await http.post( constants.URL + "/register", body: data);
     if (response.statusCode == 200) {
       jsonData = json.decode(response.body);
       setState(() {

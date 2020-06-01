@@ -24,7 +24,8 @@ try:
 
     print("--- Server established connection with the database ---\n")
 
-except:
+except Exception as e:
+    print(e)
     print("--- Server could not establish connection with database ---\n")
 
 cursor = connection.cursor()
@@ -40,10 +41,33 @@ cursor = connection.cursor()
 
 app = Flask(__name__)
 
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({'error': 'Not found'})
+
+@app.route('/login')
+def login():
+    auth = request.authorization
+    if not auth or not auth.username or not auth.password:
+        return jsonify({"succes" : False})
+    
+
+    username = auth.username
+    password = auth.password
+    query = f"""SELECT * FROM "Users" where (username = '{username}') and (password = '{password}') """
+    cursor.execute(query)
+    user = cursor.fetchall()
+    if(len(user) > 0):
+        print(user[0][0])
+        return jsonify({"succes" : True, "uid":user[0][0]})
+
+    else:
+        return jsonify({"succes" : False})
+ 
 
 @app.route( '/user', methods = ["GET", "POST"] )
 def user():
-
+    print('hello')
     # GET requests are used to retreive al information about a user [args -> 'uid']
     if request.method == "GET":
         # out of request we can extract the arguments given in the http request (account details)
@@ -55,7 +79,7 @@ def user():
         userinfo = cursor.fetchall()[0]
         usrdict = {"uid":userinfo[0], "username":userinfo[1], "password":userinfo[2], "csv":userinfo[3]}
 
-        return usrdict
+        return jsonify(usrdict);
 
     # POST requests are used to store new user entries in the database
     if request.method == "POST":
@@ -65,6 +89,7 @@ def user():
         name = body["name"]
         age = body["age"]
         password = body["password"]
+
 
         # making a csv file to store incomming sleep data on
         csvFileName = username + '_' + str(randint(1000, 9999)) + '_sleepData.csv'
@@ -110,7 +135,8 @@ def sleepData():
         body = json.loads(request.data, strict=False)
         user = body["uid"]
         data = body["data"]
-
+        print(user)
+        print("hello")
         csvUser = getCsvForUser(user)
 
         # Writing the new datapoints to csv file of user
@@ -174,5 +200,5 @@ def analyse(givenCsv):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', debug=True)
 

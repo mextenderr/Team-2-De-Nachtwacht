@@ -161,7 +161,7 @@ def analyse(givenCsv):
 
         std = st.stdev(sample(heartrates, int(len(heartrates)*0.9))) # calculating the standard deviation with a sample of heartrates
         usersAvg = sum(heartrates) / len(heartrates)
-        print(std, usersAvg)
+        print("std := " + str(std) + " --- avg := " + str(usersAvg))
 
         if len(dataPoints) > 100:
             heartrates = dataPoints[:100]

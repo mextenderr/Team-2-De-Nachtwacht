@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 //import 'package:flutter/services.dart';
 //import 'package:path_provider/path_provider.dart';
 import 'package:audioplayers/audio_cache.dart';
+import 'package:flutter_app/soundselect.dart';
 //import 'package:audioplayers/audioplayers.dart';
 
 class Alarm extends StatefulWidget {
@@ -18,6 +19,18 @@ class Alarm extends StatefulWidget {
 }
 
 class AlarmState extends State {
+  String mp3;
+
+
+  String getSong(String mp3){
+    print(mp3);
+    return mp3;
+
+  }
+  void _toSoundselectPage() {
+    Navigator.push(context,  MaterialPageRoute(builder: (context) => Soundselect()),);
+
+  }
   
 
   @override
@@ -33,7 +46,7 @@ class AlarmState extends State {
         children: <Widget>[
           FlatButton(
             onPressed: () {
-              const alarmAudioPath = "alarmsound1.mp3";
+              const alarmAudioPath = "meadowlark.mp3";
               audioCache.play(alarmAudioPath);
             },
             child: Text(
@@ -43,9 +56,9 @@ class AlarmState extends State {
           ),
           FlatButton(
             onPressed: (){
-              advancedPlayer.pause();
+              _toSoundselectPage();
             },
-            child: Text("Geluid pauseren")
+            child: Text("Select Sound")
             ),
           FlatButton(
             onPressed: () {

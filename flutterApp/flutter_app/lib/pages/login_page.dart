@@ -1,13 +1,10 @@
+
 import 'dart:convert';
 import 'package:flutter_app/models/user.dart';
-
-import 'constants.dart' as constants;
+import 'package:flutter_app/pages/register_page.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app/profile.dart';
-import 'package:flutter_app/register_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   @override

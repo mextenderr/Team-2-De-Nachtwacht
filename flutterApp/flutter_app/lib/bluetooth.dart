@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/BackgroundCollectedPage.dart';
 import 'package:flutter_app/BackgroundCollectingTask.dart';
-import 'package:flutter_app/SelectBondedDevicePage.dart';
+
+import 'package:flutter_app/pages/SelectBondedDevicePage.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:scoped_model/scoped_model.dart';
 

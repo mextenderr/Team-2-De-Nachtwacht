@@ -120,13 +120,19 @@ class BackgroundCollectingTask {
 
   void _sendToServer() async{
     var user = User();
+    var total = 0;
+    for(int i = 0; i < this.samples.length; i++){
+      total += this.samples[i]['heartrate'];
+    }
+    var avg = total / this.samples.length;
+    var time = DateTime.now().toString();
     var data = json.encode(
       {
         "uid": user.uid,
-        "data": this.samples
+        "data": [{"timestamp" : time, "heartrate": avg}]
       }
   );
-    var response = await http.post(constants.URL + "/user", body:data);
+    var response = await http.post(constants.URL + "/sleepdata", body:data);
 
   }
 }

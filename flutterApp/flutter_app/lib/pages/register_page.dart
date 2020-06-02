@@ -1,11 +1,12 @@
+
 import 'dart:convert';
-import 'constants.dart' as constants;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app/main.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_app/pages/homePage.dart';
+import '../constants.dart' as constants;
 
+import 'package:http/http.dart' as http;
 class RegisterPage extends StatefulWidget {
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -49,13 +50,13 @@ class _RegisterPageState extends State<RegisterPage> {
       'password': password
     };
     var jsonData = null;
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  
     var response = await http.post( constants.URL + "/register", body: data);
     if (response.statusCode == 200) {
       jsonData = json.decode(response.body);
       setState(() {
         _isLoading = false;
-        sharedPreferences.setString("token", jsonData['token']);
+  
         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder:  (BuildContext context) => MyHomePage()), (Route <dynamic> route)  => false); //MyHomePage moet nieuwe pagina worden
       });
     }

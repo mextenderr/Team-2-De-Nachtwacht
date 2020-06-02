@@ -144,7 +144,7 @@ def sleepData():
             writer = csv.writer(file)
 
             for row in data:
-                writer.writerow([row[0], row[1]])
+                writer.writerow([row['timestamp'], row['heartrate']])
 
         analyseResult = analyse(csvUser)
 

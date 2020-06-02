@@ -30,6 +30,9 @@ dev_dependencies:
   csv: ^4.0.0
   fl_animated_linechart: ^1.1.2
   fl_chart: ^0.9.4
+  async: ^2.4.1
+  convert: ^2.1.1
+  json_serializable: ^3.3.0
 
 
 

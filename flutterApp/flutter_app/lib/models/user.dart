@@ -14,15 +14,12 @@ class User {
   }
 
   void addBeat(int beat){
-    if(count == 0){
-      count ++;
-      DateTime now = DateTime.now();
-      Map<String, dynamic> point = {"value": 0, "date": now};
-    }
+   
     if(count < 100){
       total += beat;
       count ++;
     }
+
     else{
       var avg = total / count;
       DateTime now = DateTime.now();
@@ -32,6 +29,7 @@ class User {
         point
       );
     }
+    print(count);
   }
   
 

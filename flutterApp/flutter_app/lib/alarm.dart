@@ -1,5 +1,6 @@
 //import 'dart:html';
 //import 'dart:typed_data';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 //import 'dart:async';
@@ -7,7 +8,7 @@ import 'package:flutter/material.dart';
 //import 'package:flutter/services.dart';
 //import 'package:path_provider/path_provider.dart';
 import 'package:audioplayers/audio_cache.dart';
-import 'package:flutter_app/soundselect.dart';
+import 'soundselect.dart';
 //import 'package:audioplayers/audioplayers.dart';
 
 class Alarm extends StatefulWidget {
@@ -19,24 +20,30 @@ class Alarm extends StatefulWidget {
 }
 
 class AlarmState extends State {
-  String mp3;
+  int mp3;
+  int mp3index;
 
-
-  String getSong(String mp3){
+  int getSong(int mp3){
     print(mp3);
+    mp3index = mp3;
     return mp3;
-
+    
   }
   void _toSoundselectPage() {
     Navigator.push(context,  MaterialPageRoute(builder: (context) => Soundselect()),);
 
   }
   
+  
 
   @override
   Widget build(BuildContext context) {
     AudioPlayer advancedPlayer = new AudioPlayer();
     AudioCache audioCache = new AudioCache(fixedPlayer: advancedPlayer);
+    mp3index = mp3;
+
+  
+  
 
     return Scaffold(
       appBar: AppBar(
@@ -46,8 +53,23 @@ class AlarmState extends State {
         children: <Widget>[
           FlatButton(
             onPressed: () {
-              const alarmAudioPath = "meadowlark.mp3";
-              audioCache.play(alarmAudioPath);
+              print(mp3index);
+              print(SoundselectState().mp3soundselect);
+              if(SoundselectState().mp3soundselect == 1)
+              {
+                const alarmAudioPath = "meadowlark.mp3";
+                audioCache.play(alarmAudioPath);
+              }
+              else if(SoundselectState().mp3soundselect == 2)
+              {
+                const alarmAudioPath = "alarmsound1.mp3";
+                audioCache.play(alarmAudioPath);
+              }
+              else 
+              {
+                //const alarmAudioPath = "alarmsound1.mp3";
+                //audioCache.play(alarmAudioPath);
+              }
             },
             child: Text(
               'Click for sound',
@@ -66,6 +88,7 @@ class AlarmState extends State {
             },
             child: Text("Geluid stoppen"),
           )
+          
         ],
       ),
     );

@@ -13,7 +13,12 @@ class Soundselect extends StatefulWidget{
 }
 
 class SoundselectState extends State{
- 
+  int mp3soundselect ;
+  
+  void _toAlarmPage() {
+    Navigator.push(context,  MaterialPageRoute(builder: (context) => Alarm()),);
+
+  }
  
  
   @override
@@ -27,15 +32,32 @@ class SoundselectState extends State{
         children: <Widget>[
           FlatButton(
             onPressed: () {
-              AlarmState().getSong("meadowlark.mp3");
+              mp3soundselect = 1;
             },
             child: Text(
               'Birds chirping',
               textAlign: TextAlign.center,
             ),
-          )
+          ),
+          FlatButton(
+            onPressed: () {
+              mp3soundselect = 2;
+            },
+            child: Text(
+              'Coffing meme sound',
+              textAlign: TextAlign.center,
+            ),
+          ),
+          FloatingActionButton(
+            onPressed: (){
+                _toAlarmPage();
+                mp3soundselect = 1;
+                print(mp3soundselect);
+            },
+            child: Text('Confirm Selection'))
         ],
       ),
+      
     );
   }
   

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/alarm.dart';
 import 'package:flutter_app/bluetooth.dart';
 
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_app/pages/homePage.dart';
 import 'package:flutter_app/pages/login_page.dart';
 import 'package:flutter_app/pages/register_page.dart';
 
 import 'package:http/http.dart' as http;
 
-void main() => runApp(
-  MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -18,6 +18,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        textTheme: GoogleFonts.latoTextTheme(
+          Theme.of(context).textTheme,
+        ),
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
@@ -27,15 +30,13 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-          primarySwatch: Colors.blue,
+        primarySwatch: Colors.blue,
       ),
       routes: {
         '/': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
-        '/home' : (context) => MyHomePage()
+        '/home': (context) => MyHomePage()
       },
-      
     );
   }
 }
-

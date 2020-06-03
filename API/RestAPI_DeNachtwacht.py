@@ -77,7 +77,7 @@ def user():
             """select * from "Users" where uid = %s""", (userid,)
         )
         userinfo = cursor.fetchall()[0]
-        usrdict = {"uid":userinfo[0], "username":userinfo[1], "password":userinfo[2], "csv":userinfo[3]}
+        usrdict = {"uid":userinfo[0], "username":userinfo[1], "csv":userinfo[3]}
 
         return jsonify(usrdict);
 

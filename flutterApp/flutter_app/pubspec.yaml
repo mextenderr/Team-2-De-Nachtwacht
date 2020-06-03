@@ -27,6 +27,7 @@ dependencies:
   scoped_model: ^1.0.1
   provider: ^3.0.0
   google_fonts: ^1.1.0
+  bezier_chart: "^1.0.16"
 
 dev_dependencies:
   flutter_test:

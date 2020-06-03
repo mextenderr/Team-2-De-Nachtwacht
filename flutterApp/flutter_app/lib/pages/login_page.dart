@@ -139,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
       padding: EdgeInsets.symmetric(horizontal: 30.0),
       child: OutlineButton(
         onPressed: () {
-          Navigator.of(context).pushReplacementNamed('/register');
+          Navigator.push(context,  MaterialPageRoute(builder: (context) => RegisterPage()),);
         },
         color: Colors.transparent,
         borderSide: BorderSide(

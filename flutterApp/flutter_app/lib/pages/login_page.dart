@@ -6,6 +6,7 @@ import 'package:flutter_app/pages/register_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/constants.dart' as constants;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -52,7 +53,8 @@ class _LoginPageState extends State<LoginPage> {
   signIn(String username, String password) async {
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
-    final response = await http.get('http://192.168.178.92:5000/login',
+    String req = constants.URL + '/login';
+    final response = await http.get(req,
         headers: <String, String>{'authorization': basicAuth});
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
@@ -65,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
           user.name = username;
           Navigator.of(context).pushReplacementNamed('/home');
          
-        };
+        }
       } 
       else {
         print(response.body);
@@ -137,10 +139,7 @@ class _LoginPageState extends State<LoginPage> {
       padding: EdgeInsets.symmetric(horizontal: 30.0),
       child: OutlineButton(
         onPressed: () {
-          setState(() {
-            _isLoading = true;
-          });
-          signIn(usernameController.text, passwordController.text);
+          Navigator.of(context).pushReplacementNamed('/register');
         },
         color: Colors.transparent,
         borderSide: BorderSide(

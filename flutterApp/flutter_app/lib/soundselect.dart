@@ -3,6 +3,7 @@ import 'package:flutter_app/alarm.dart';
 import 'package:audioplayers/audio_cache.dart';
 
 class Soundselect extends StatefulWidget{
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -13,10 +14,14 @@ class Soundselect extends StatefulWidget{
 }
 
 class SoundselectState extends State{
-  int mp3soundselect ;
+  int mp3soundselect;
   
-  void _toAlarmPage() {
-    Navigator.push(context,  MaterialPageRoute(builder: (context) => Alarm()),);
+  void _toAlarmPage(song) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => 
+          new Alarm(selectedSong: song)));
 
   }
  
@@ -32,7 +37,7 @@ class SoundselectState extends State{
         children: <Widget>[
           FlatButton(
             onPressed: () {
-              mp3soundselect = 1;
+              _toAlarmPage(1);
             },
             child: Text(
               'Birds chirping',
@@ -41,7 +46,7 @@ class SoundselectState extends State{
           ),
           FlatButton(
             onPressed: () {
-              mp3soundselect = 2;
+              _toAlarmPage(2);
             },
             child: Text(
               'Coffing meme sound',
@@ -50,9 +55,7 @@ class SoundselectState extends State{
           ),
           FloatingActionButton(
             onPressed: (){
-                _toAlarmPage();
-                mp3soundselect = 1;
-                print(mp3soundselect);
+                _toAlarmPage(3);
             },
             child: Text('Confirm Selection'))
         ],

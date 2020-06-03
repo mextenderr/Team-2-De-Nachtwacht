@@ -74,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
           _isLoading = false;
         });
     }
-  
+
 
   Widget topSection(){
     return ClipPath(

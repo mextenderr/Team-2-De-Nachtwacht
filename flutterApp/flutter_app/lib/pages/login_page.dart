@@ -27,12 +27,6 @@ class _LoginPageState extends State<LoginPage> {
           topSection()
           ,Expanded(
                       child: Container(
-              // decoration: BoxDecoration(
-              //   gradient: LinearGradient(colors: [
-              //     Colors.blue,
-              //     Colors.teal,
-              //   ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-              // ),
               child: _isLoading
                   ? Center(child: CircularProgressIndicator())
                   : ListView(
@@ -139,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
       padding: EdgeInsets.symmetric(horizontal: 30.0),
       child: OutlineButton(
         onPressed: () {
-          Navigator.push(context,  MaterialPageRoute(builder: (context) => RegisterPage()),);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()),);
         },
         color: Colors.transparent,
         borderSide: BorderSide(

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app/pages/homePage.dart';
+import 'package:flutter_app/helpers/LinePath.dart';
 import 'package:flutter_app/pages/login_page.dart';
 import '../constants.dart' as constants;
 
@@ -17,28 +17,29 @@ class _RegisterPageState extends State<RegisterPage> {
 
 @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
+      .copyWith(statusBarColor: Colors.transparent));
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.blue,
-              Colors.teal,
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter
+      body: Column(
+
+        children: <Widget>[
+          topSection()
+          ,Expanded(
+                        child: Container(
+                child: _isLoading 
+                  ? Center(child: CircularProgressIndicator()) 
+                  : ListView(
+                      children: <Widget>[
+                        headerSection(),
+                        textSection(),
+                        buttonSection(),
+                  ],
+                ),
+            ),
           ),
-        ),
-        child: _isLoading ? Center(child: CircularProgressIndicator()) : ListView(
-          children: <Widget>[
-            headerSection(),
-            textSection(),
-            buttonSection(),
-          ],
-        ),
+        ],
       ),
-     );
+    );
   }
 
   signUp(String username, String age, String name, String password) async {
@@ -62,25 +63,53 @@ class _RegisterPageState extends State<RegisterPage> {
       print(response.body);
     }
   }
-
+  Widget topSection(){
+    return ClipPath(
+            
+            clipper: LinePath(),
+            child: Container(
+              color: Color.fromRGBO(65, 64, 66, 1),
+              
+              height: 250,
+              child:  Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Center(
+                        child:Image(
+                          width: 120,
+                          image: AssetImage('assets/logo/logo.png' )
+                      ),
+                      
+            ),
+                    ),
+            headerSection()
+                  ],
+                ),
+              )
+          );
+  }
   Container buttonSection(){
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 40.0,
       margin: EdgeInsets.only(top: 30.0),
       padding: EdgeInsets.symmetric(horizontal: 30.0),
-      child: RaisedButton(
+      child: OutlineButton(
         onPressed: () {
           setState(() {
             _isLoading = true;
           });
           signUp(usernameController.text, ageController.text, nameController.text, passwordController.text);
         },
-        color: Colors.purple,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
-          ),
-        child: Text("Sign Up", style: TextStyle(color: Colors.white70)),
+        color: Colors.transparent,
+        borderSide: BorderSide(
+
+          color: Color.fromRGBO(110, 198, 186, 1),
+          width: 1,
+        ),
+        child: Text( _isLoading ? "Creating account..." : "Sign Up", style: TextStyle(color: Colors.white70)),
       ),
     );
   }
@@ -112,10 +141,10 @@ class _RegisterPageState extends State<RegisterPage> {
     return TextFormField(
       controller: usernameController,
       obscureText: title == "Username" ? false : true,
-      style: TextStyle(color: Colors.white70),
+      style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
       decoration: InputDecoration(
         hintText: title,
-        hintStyle: TextStyle(color: Colors.white70),
+        hintStyle: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
         icon: Icon(icon)
       ),
     );
@@ -125,10 +154,10 @@ class _RegisterPageState extends State<RegisterPage> {
     return TextFormField(
       controller: ageController,
       obscureText: title == "Age" ? false : true,
-      style: TextStyle(color: Colors.white70),
+      style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
       decoration: InputDecoration(
         hintText: title,
-        hintStyle: TextStyle(color: Colors.white70),
+        hintStyle: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
         icon: Icon(icon)
       ),
     );
@@ -138,10 +167,10 @@ class _RegisterPageState extends State<RegisterPage> {
     return TextFormField(
       controller: nameController,
       obscureText: title == "Name" ? false : true,
-      style: TextStyle(color: Colors.white70),
+      style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
       decoration: InputDecoration(
         hintText: title,
-        hintStyle: TextStyle(color: Colors.white70),
+        hintStyle: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
         icon: Icon(icon)
       ),
     );
@@ -150,19 +179,19 @@ class _RegisterPageState extends State<RegisterPage> {
     return TextFormField(
       controller: passwordController,
       obscureText: true,
-      style: TextStyle(color: Colors.white70),
+      style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
       decoration: InputDecoration(
         hintText: title,
-        hintStyle: TextStyle(color: Colors.white70),
+        hintStyle: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
         icon: Icon(icon)
       ),
     );
   }
 
-  Container headerSection() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
-      child: Text("De Nachtwacht", style: TextStyle(color: Colors.white)),
+  Center headerSection() {
+    return Center(
+     
+      child: Text("De Nachtwacht", style: TextStyle(fontSize:20 ,color: Color.fromRGBO(110, 198, 186, 1))),
     );
   }
 }

@@ -1,6 +1,4 @@
-
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/helpers/LinePath.dart';
@@ -51,15 +49,14 @@ class _RegisterPageState extends State<RegisterPage> {
       'name': name,
       'password': password
     };
-    var jsonData = null;
-  
-    var response = await http.post( constants.URL + "/register", body: data);
+    var body = json.encode(data);
+
+    var response = await http.post( constants.URL + "/user", body: body);
     if (response.statusCode == 200) {
-      jsonData = json.decode(response.body);
       setState(() {
         _isLoading = false;
-  
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder:  (BuildContext context) => LoginPage()), (Route <dynamic> route)  => false);
+        print("--Succesful register--");
+        Navigator.push(context,  MaterialPageRoute(builder: (context) => LoginPage()),);
       });
     }
     else {

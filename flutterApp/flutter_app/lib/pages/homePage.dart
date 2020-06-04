@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/alarm.dart';
 import 'package:flutter_app/bluetooth.dart';
+import 'package:flutter_app/chart.dart';
 import 'package:flutter_app/helpers/LinePath.dart';
 import 'package:flutter_app/models/user.dart';
 import 'package:flutter_app/pages/login_page.dart';
@@ -102,65 +103,57 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontWeight: FontWeight.bold,
                     color: constants.COLOR)),
           ),
+
           Center(
-            // Center is a layout widget. It takes a single child and positions it
-            // in the middle of the parent.
-            child: Column(
-              // Column is also a layout widget. It takes a list of children and
-              // arranges them vertically. By default, it sizes itself to fit its
-              // children horizontally, and tries to be as tall as its parent.
-              //
-              // Invoke "debug painting" (press "p" in the console, choose the
-              // "Toggle Debug Paint" action from the Flutter Inspector in Android
-              // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-              // to see the wireframe for each widget.
-              //
-              // Column has various properties to control how it sizes itself and
-              // how it positions its children. Here we use mainAxisAlignment to
-              // center the children vertically; the main axis here is the vertical
-              // axis because Columns are vertical (the cross axis would be
-              // horizontal).
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                OutlineButton(
-                  onPressed: () {
-                    _toAlarmPage();
-                  },
-                  color: Colors.transparent,
-                  borderSide: BorderSide(
-                    color: Color.fromRGBO(110, 198, 186, 1),
-                    width: 1,
+            child: sample3(context)
+          ),
+          Center(
+            
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+               
+                children: <Widget>[
+                  OutlineButton(
+                    onPressed: () {
+                      _toAlarmPage();
+                    },
+                    color: Colors.transparent,
+                    borderSide: BorderSide(
+                      color: Color.fromRGBO(110, 198, 186, 1),
+                      width: 1,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.alarm, color: constants.COLOR,),
+                        Text("Alarm",
+                            style:
+                                TextStyle(color: Color.fromRGBO(110, 198, 186, 1))),
+                      ],
+                    ),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(Icons.alarm, color: constants.COLOR,),
-                      Text("Alarm",
-                          style:
-                              TextStyle(color: Color.fromRGBO(110, 198, 186, 1))),
-                    ],
+                  OutlineButton(
+                    onPressed: () {
+                      _toBluetoothPage();
+                    },
+                    color: Colors.transparent,
+                    borderSide: BorderSide(
+                      color: Color.fromRGBO(110, 198, 186, 1),
+                      width: 1,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.bluetooth, color: constants.COLOR,),
+                        Text("Device",
+                            style:
+                                TextStyle(color: Color.fromRGBO(110, 198, 186, 1))),
+                      ],
+                    ),
                   ),
-                ),
-                OutlineButton(
-                  onPressed: () {
-                    _toBluetoothPage();
-                  },
-                  color: Colors.transparent,
-                  borderSide: BorderSide(
-                    color: Color.fromRGBO(110, 198, 186, 1),
-                    width: 1,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(Icons.bluetooth, color: constants.COLOR,),
-                      Text("Device",
-                          style:
-                              TextStyle(color: Color.fromRGBO(110, 198, 186, 1))),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

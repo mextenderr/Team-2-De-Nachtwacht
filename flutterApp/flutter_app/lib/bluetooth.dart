@@ -123,15 +123,7 @@ class BluetoothPageState extends State {
               },
             ),
           ),
-          ListTile(
-            title: const Text('Local adapter address'),
-            subtitle: Text(_address),
-          ),
-          ListTile(
-            title: const Text('Local adapter name'),
-            subtitle: Text(_name),
-            onLongPress: null,
-          ),
+     
            ListTile(
               title: RaisedButton(
                 child: ((_collectingTask != null && _collectingTask.inProgress)

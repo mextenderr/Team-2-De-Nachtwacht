@@ -17,15 +17,11 @@ class SoundselectState extends State{
   int mp3soundselect;
   
   void _toAlarmPage(song) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => 
-          new Alarm(selectedSong: song)));
+    Navigator.pop(context, song);
 
   }
- 
- 
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

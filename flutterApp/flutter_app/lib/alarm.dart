@@ -12,9 +12,8 @@ import 'soundselect.dart';
 //import 'package:audioplayers/audioplayers.dart';
 
 class Alarm extends StatefulWidget {
-  final int selectedSong;
-
-  const Alarm({Key key, this.selectedSong}) : super(key: key);
+  
+  const Alarm({Key key,}) : super(key: key);
 
   @override
   AlarmState createState() => AlarmState();
@@ -22,10 +21,13 @@ class Alarm extends StatefulWidget {
 }
 
 class AlarmState extends State<Alarm> {
+  int selectedSong;
 
-  void _toSoundselectPage() {
-    Navigator.push(context,  MaterialPageRoute(builder: (context) => Soundselect()),);
-
+  void _toSoundselectPage()  async{
+    final int selectedSound = await Navigator.push(context,  MaterialPageRoute(builder: (context) => Soundselect()),);
+    setState(() {
+      selectedSong = selectedSound;
+    });
   }
 
 
@@ -44,13 +46,13 @@ class AlarmState extends State<Alarm> {
           FlatButton(
             onPressed: () {
 
-              if( widget.selectedSong == 1)
+              if( selectedSong == 1)
               {
                 const alarmAudioPath = "meadowlark.mp3";
                 audioCache.play(alarmAudioPath);
               }
 
-              else if(widget.selectedSong == 2)
+              else if(selectedSong == 2)
               {
                 const alarmAudioPath = "alarmsound1.mp3";
                 audioCache.play(alarmAudioPath);

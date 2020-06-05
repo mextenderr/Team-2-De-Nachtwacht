@@ -1,9 +1,7 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
+import 'package:flutter_app/models/audioManager.dart';
 import 'package:flutter_app/models/user.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
-import 'package:provider/provider.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 import 'constants.dart' as constants;
 
@@ -28,7 +26,7 @@ class BackgroundCollectingTask {
   List samples = [];
 
   bool inProgress;
-
+  AudioManager audioManager = AudioManager();
   BackgroundCollectingTask._fromConnection(this._connection) {
     _connection.input.listen((data) {
       print('dataa');
@@ -133,6 +131,11 @@ class BackgroundCollectingTask {
       }
   );
     var response = await http.post(constants.URL + "/sleepdata", body:data);
-
+    if(response.statusCode == 200){
+      var responseData = json.decode(response.body);
+      if(responseData["wakeup"]){
+        audioManager.play("alarmsound1.mp3");
+      }
+    }
   }
 }

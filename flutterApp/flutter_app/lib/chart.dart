@@ -8,8 +8,6 @@ Widget sample3(BuildContext context) {
   final fromDate = DateTime(2019, 05, 22);
   final toDate = DateTime.now();
 
-  final date1 = DateTime.now().subtract(Duration(days: 2));
-  final date2 = DateTime.now().subtract(Duration(days: 3));
 
 
 return Consumer<Data>(
@@ -51,7 +49,7 @@ return Consumer<Data>(
         ),
       ),
     ),
-  );;
+  );
   },
 );
   

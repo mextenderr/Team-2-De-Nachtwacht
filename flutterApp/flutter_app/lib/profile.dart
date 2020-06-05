@@ -34,7 +34,7 @@ class _MainPageState extends State<MainPage> {
           FlatButton(
             onPressed: () {
               sharedPreferences.clear();
-              sharedPreferences.commit();
+            
               Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder:  (BuildContext context) => MainPage()), (Route <dynamic> route)  => false); //MyHomePage moet nieuwe pagina worden
             },
             child: Text("Log Out", style: TextStyle(color: Colors.white)),

@@ -4,8 +4,6 @@ import 'package:flutter_app/bluetooth.dart';
 import 'package:flutter_app/chart.dart';
 import 'package:flutter_app/helpers/LinePath.dart';
 import 'package:flutter_app/models/user.dart';
-import 'package:flutter_app/pages/login_page.dart';
-import 'package:http/http.dart' as http;
 import '../constants.dart' as constants;
 
 class MyHomePage extends StatefulWidget {
@@ -15,14 +13,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool waiting = false;
-  String _response = "";
-  
-  void _toInlogPage() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
-    );
-  }
+
+
 
   void _toBluetoothPage() {
     Navigator.push(
@@ -36,23 +28,6 @@ class _MyHomePageState extends State<MyHomePage> {
       context,
       MaterialPageRoute(builder: (context) => Alarm()),
     );
-  }
-
-  void _sendRequest() {
-    setState(() {
-      waiting = true;
-    });
-    _request().then((value) {
-      setState(() {
-        waiting = false;
-        _response = value;
-      });
-    });
-  }
-
-  Future<String> _request() async {
-    final response = await http.get("http://127.0.0.1:5001/true");
-    return response.body;
   }
 
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
@@ -73,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
       daypart = "evening";
     }
 
-    return "Good ${daypart}, ${name}!";
+    return "Good $daypart, $name!";
   }
 
   @override

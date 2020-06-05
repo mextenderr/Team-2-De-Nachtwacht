@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 class LinePath extends CustomClipper<Path>{
   @override
   Path getClip(Size size) {
-    // TODO: implement getClip
+
     var path = Path();
     path.lineTo(0, size.height/4 * 3);
    
@@ -21,7 +21,7 @@ class LinePath extends CustomClipper<Path>{
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) {
-    // TODO: implement shouldReclip
+
     return false;
   }
 
@@ -30,7 +30,7 @@ class LinePath extends CustomClipper<Path>{
 class LinePathSmall extends CustomClipper<Path>{
   @override
   Path getClip(Size size) {
-    // TODO: implement getClip
+
     var path = Path();
     path.lineTo(0, size.height/2);
    
@@ -48,7 +48,6 @@ class LinePathSmall extends CustomClipper<Path>{
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) {
-    // TODO: implement shouldReclip
     return false;
   }
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/alarm.dart';
+import 'package:flutter_app/pages/alarmPage.dart';
 import 'package:audioplayers/audio_cache.dart';
 
 class Soundselect extends StatefulWidget{
@@ -17,15 +17,11 @@ class SoundselectState extends State{
   int mp3soundselect;
   
   void _toAlarmPage(song) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => 
-          new Alarm(selectedSong: song)));
+    Navigator.pop(context, song);
 
   }
- 
- 
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

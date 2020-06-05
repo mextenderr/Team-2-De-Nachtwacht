@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/BluetoothDeviceListEntry.dart';
+import 'package:flutter_app/helpers/LinePath.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
 class SelectBondedDevicePage extends StatefulWidget {
@@ -107,6 +108,15 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
     super.dispose();
   }
 
+  Widget _topSection(){
+    return ClipPath(
+              clipper: LinePath(),
+              child: Container(
+                color: Color.fromRGBO(65, 64, 66, 1),
+                height: 100,
+              ));
+  }
+
   @override
   Widget build(BuildContext context) {
     List<BluetoothDeviceListEntry> list = devices
@@ -117,10 +127,14 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
               onTap: () {
                 Navigator.of(context).pop(_device.device);
               },
-            ))
-        .toList();
+            )).toList();
+        
+     
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
         title: Text('Select device'),
         actions: <Widget>[
           _isDiscovering
@@ -140,7 +154,14 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
                 )
         ],
       ),
-      body: ListView(children: list),
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            _topSection(),
+            Expanded(child: ListView(padding:EdgeInsets.only(top: 0) ,children: list)),
+          ],
+        ),
+      ),
     );
   }
 }

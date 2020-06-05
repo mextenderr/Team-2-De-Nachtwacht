@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/alarm.dart';
+import 'package:flutter_app/pages/alarmPage.dart';
 import 'package:flutter_app/bluetooth.dart';
 import 'package:flutter_app/chart.dart';
 import 'package:flutter_app/helpers/LinePath.dart';
@@ -105,7 +105,15 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
 
           Center(
-            child: sample3(context)
+            child: Stack(
+              children: <Widget>[
+                Center(child: Padding(
+                  padding: const EdgeInsets.only(top: 40.0),
+                  child: Icon(Icons.favorite, color: Colors.grey[100], size: 230,),
+                )),
+                sample3(context),
+              ],
+            )
           ),
           Center(
             

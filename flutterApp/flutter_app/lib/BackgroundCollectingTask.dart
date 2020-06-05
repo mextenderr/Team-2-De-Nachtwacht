@@ -34,7 +34,7 @@ class BackgroundCollectingTask {
       print('dataa');
       _buffer += data;
 
-      var collectedData = [];
+  
       while (true) {
         // If there is a sample, and it is full sent
         int index = _buffer.indexOf('t'.codeUnitAt(0));

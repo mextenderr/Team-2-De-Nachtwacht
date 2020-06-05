@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/alarm.dart';
-import 'package:flutter_app/bluetooth.dart';
+
+import 'package:flutter_app/models/connection.dart';
 import 'package:flutter_app/models/data.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -8,13 +8,15 @@ import 'package:flutter_app/pages/homePage.dart';
 import 'package:flutter_app/pages/login_page.dart';
 import 'package:flutter_app/pages/register_page.dart';
 
-import 'package:http/http.dart' as http;
+
 import 'package:provider/provider.dart';
 
 void main(){runApp(
-  
-    ChangeNotifierProvider(
-      create: (context) => Data(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => Data()),
+        ChangeNotifierProvider(create: (context) => Connection())
+      ],
       child: MyApp(),
     ),
   );

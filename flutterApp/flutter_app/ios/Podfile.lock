@@ -1,4 +1,8 @@
 PODS:
+  - assets_audio_player (0.0.1):
+    - Flutter
+  - audioplayers (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - flutter_bluetooth_serial (0.0.1):
     - Flutter
@@ -16,6 +20,8 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - assets_audio_player (from `.symlinks/plugins/assets_audio_player/ios`)
+  - audioplayers (from `.symlinks/plugins/audioplayers/ios`)
   - Flutter (from `Flutter`)
   - flutter_bluetooth_serial (from `.symlinks/plugins/flutter_bluetooth_serial/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
@@ -26,6 +32,10 @@ DEPENDENCIES:
   - shared_preferences_web (from `.symlinks/plugins/shared_preferences_web/ios`)
 
 EXTERNAL SOURCES:
+  assets_audio_player:
+    :path: ".symlinks/plugins/assets_audio_player/ios"
+  audioplayers:
+    :path: ".symlinks/plugins/audioplayers/ios"
   Flutter:
     :path: Flutter
   flutter_bluetooth_serial:
@@ -44,6 +54,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences_web/ios"
 
 SPEC CHECKSUMS:
+  assets_audio_player: 1f5d855ea3e0484357e2efb0cb703b17959e6170
+  audioplayers: 84f968cea3f2deab00ec4f8ff53358b3c0b3992c
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_bluetooth_serial: a42f785e4f7d2a6390d415cc39da5474ec2fef4f
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c

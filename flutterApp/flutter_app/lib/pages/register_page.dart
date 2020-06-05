@@ -30,7 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ? Center(child: CircularProgressIndicator()) 
                   : ListView(
                       children: <Widget>[
-                        headerSection(),
+                        
                         textSection(),
                         buttonSection(),
                   ],
@@ -61,6 +61,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
     else {
       print(response.body);
+      print("--Registration failed--");
     }
   }
   Widget topSection(){
@@ -109,7 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
           color: Color.fromRGBO(110, 198, 186, 1),
           width: 1,
         ),
-        child: Text( _isLoading ? "Creating account..." : "Sign Up", style: TextStyle(color: Colors.white70)),
+        child: Text( _isLoading ? "Creating account..." : "Sign Up", style: TextStyle(color: Color.fromRGBO(110, 198, 186, 1))),
       ),
     );
   }

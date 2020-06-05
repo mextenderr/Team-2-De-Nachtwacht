@@ -1,7 +1,6 @@
-
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/helpers/LinePath.dart';
 import 'package:flutter_app/models/audioManager.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter_app/soundselect.dart';
@@ -25,17 +24,30 @@ class AlarmState extends State<Alarm> {
     });
   }
 
+Widget _topSection(){
+    return ClipPath(
+              clipper: LinePath(),
+              child: Container(
+                color: Color.fromRGBO(65, 64, 66, 1),
+                height: 100,
+              ));
+  }
 
   @override
   Widget build(BuildContext context) {
   AudioManager audioManager = AudioManager();
-
+    
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text("alarm"),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
       ),
       body: ListView(
+        padding: EdgeInsets.only(top: 0),
         children: <Widget>[
+          _topSection(),
           FlatButton(
             onPressed: () {
 

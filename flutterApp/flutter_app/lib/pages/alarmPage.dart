@@ -62,12 +62,59 @@ Widget _topSection(){
                 const alarmAudioPath = "alarmsound1.mp3";
                 audioManager.play(alarmAudioPath);
               }
-              else 
+               if( selectedSong == 1)
               {
-                //const alarmAudioPath = "alarmsound1.mp3";
-                //audioCache.play(alarmAudioPath);
+                const alarmAudioPath = "meadowlark.mp3";
+                audioManager.play(alarmAudioPath);
+              }
+
+              else if(selectedSong == 2)
+              {
+                const alarmAudioPath = "whale.mp3";
+                audioManager.play(alarmAudioPath);
+              }
+              else if(selectedSong == 3)
+              {
+                const alarmAudioPath = "waterfall.mp3";
+                audioManager.play(alarmAudioPath);
+              }
+              else if(selectedSong == 4)
+              {
+                const alarmAudioPath = "crickets.mp3";
+                audioManager.play(alarmAudioPath);
+              }
+              else if(selectedSong == 5)
+              {
+                const alarmAudioPath = "beachwaves.mp3";
+                audioManager.play(alarmAudioPath);
+              }
+              else if(selectedSong == 6)
+              {
+                const alarmAudioPath = "healingwater.mp3";
+                audioManager.play(alarmAudioPath);
+              }
+              else if(selectedSong == 7)
+              {
+                const alarmAudioPath = "rainstorm.mp3";
+                audioManager.play(alarmAudioPath);
+              }
+              else if(selectedSong == 8)
+              {
+                const alarmAudioPath = "creek.mp3";
+                audioManager.play(alarmAudioPath);
+              }
+              else if(selectedSong == 9)
+              {
+                const alarmAudioPath = "rainforest.mp3";
+                audioManager.play(alarmAudioPath);
+              }
+              else if(selectedSong == 10)
+              {
+                const alarmAudioPath = "alarmsound1.mp3";
+                audioManager.play(alarmAudioPath);
               }
             },
+              
             child: Text(
               'Click for sound',
               textAlign: TextAlign.center,

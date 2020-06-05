@@ -3,20 +3,26 @@ import 'audioManager.dart';
 
 class Alarm extends ChangeNotifier{
   AudioManager audioManager;
+  bool playing = false; 
   Alarm(){
     audioManager = AudioManager(callBack: this.managerChangeHandler);
   }
 
-  void play(String path){
-    audioManager.play(path);
+  void play(){
+    audioManager.play();
+    playing = true;
+    notifyListeners();
   }
 
-    void stop(){
+  void stop(){
     audioManager.stop();
+    playing = false;
+    notifyListeners();
   }
 
 
-  Function managerChangeHandler(){
+   void managerChangeHandler(){
+    print("called");
     notifyListeners();
     return null;
   }

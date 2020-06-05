@@ -134,7 +134,7 @@ class BackgroundCollectingTask {
     if(response.statusCode == 200){
       var responseData = json.decode(response.body);
       if(responseData["wakeup"]){
-        audioManager.play("alarmsound1.mp3");
+        audioManager.play();
       }
     }
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/alarm.dart';
 
 import 'package:flutter_app/models/connection.dart';
 import 'package:flutter_app/models/data.dart';
@@ -14,6 +15,7 @@ import 'package:provider/provider.dart';
 void main(){runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => Alarm()),
         ChangeNotifierProvider(create: (context) => Data()),
         ChangeNotifierProvider(create: (context) => Connection())
       ],

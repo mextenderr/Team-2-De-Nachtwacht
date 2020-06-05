@@ -26,7 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _toAlarmPage() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Alarm()),
+      MaterialPageRoute(builder: (context) => AlarmPage()),
     );
   }
 

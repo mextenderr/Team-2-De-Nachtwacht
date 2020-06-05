@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'constants.dart' as constants;
 
 class BluetoothDeviceListEntry extends ListTile {
   BluetoothDeviceListEntry({
@@ -14,7 +15,7 @@ class BluetoothDeviceListEntry extends ListTile {
           enabled: enabled,
           leading:
               Icon(Icons.devices), // @TODO . !BluetoothClass! class aware icon
-          title: Text(device.name ?? "Unknown device"),
+          title: Text(device.name ?? "Unknown device", style: TextStyle(color: constants.COLOR)),
           subtitle: Text(device.address.toString()),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
@@ -28,17 +29,17 @@ class BluetoothDeviceListEntry extends ListTile {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Text(rssi.toString()),
-                            Text('dBm'),
+                            Text('dBm', ),
                           ],
                         ),
                       ),
                     )
                   : Container(width: 0, height: 0),
               device.isConnected
-                  ? Icon(Icons.import_export)
+                  ? Icon(Icons.import_export, color: constants.COLOR)
                   : Container(width: 0, height: 0),
               device.isBonded
-                  ? Icon(Icons.link)
+                  ? Icon(Icons.link, color: constants.COLOR)
                   : Container(width: 0, height: 0),
             ],
           ),

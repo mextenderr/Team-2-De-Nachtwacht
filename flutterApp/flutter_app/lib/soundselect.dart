@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/alarm.dart';
+import 'package:flutter_app/pages/alarmPage.dart';
 import 'package:audioplayers/audio_cache.dart';
 
 class Soundselect extends StatefulWidget{

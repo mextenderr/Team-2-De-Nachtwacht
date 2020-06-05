@@ -55,6 +55,14 @@ flutter:
    - assets/logo/logo.png
    - assets/alarmsound1.mp3
    - assets/meadowlark.mp3
+   - assets/waterfall.mp3
+   - assets/crickets.mp3
+   - assets/beachwaves.mp3
+   - assets/healingwater.mp3
+   - assets/rainstorm.mp3
+   - assets/creek.mp3
+   - assets/rainforest.mp3
+   - assets/whale.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

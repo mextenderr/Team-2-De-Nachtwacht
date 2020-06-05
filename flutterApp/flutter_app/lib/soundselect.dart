@@ -49,15 +49,83 @@ class SoundselectState extends State{
               _toAlarmPage(2);
             },
             child: Text(
-              'Coffing meme sound',
+              'Whale',
               textAlign: TextAlign.center,
             ),
           ),
-          FloatingActionButton(
+          FlatButton(
             onPressed: (){
                 _toAlarmPage(3);
             },
-            child: Text('Confirm Selection'))
+            child: Text(
+              'Waterfall',
+              textAlign: TextAlign.center,
+              ),
+              ),
+          FlatButton(
+            onPressed: (){
+                _toAlarmPage(4);
+            },
+            child: Text(
+              'Crickets',
+              textAlign: TextAlign.center,
+              ),
+              ),
+          FlatButton(
+            onPressed: (){
+                _toAlarmPage(5);
+            },
+            child: Text(
+              'Beachwaves',
+              textAlign: TextAlign.center,
+              ),
+              ),
+          FlatButton(
+            onPressed: (){
+                _toAlarmPage(6);
+            },
+            child: Text(
+              'Healing water',
+              textAlign: TextAlign.center,
+              ),
+              ),
+          FlatButton(
+            onPressed: (){
+                _toAlarmPage(7);
+            },
+            child: Text(
+              'Mild rainstorm',
+              textAlign: TextAlign.center,
+              ),
+              ),
+          FlatButton(
+            onPressed: (){
+                _toAlarmPage(8);
+            },
+            child: Text(
+              'Running creek',
+              textAlign: TextAlign.center,
+              ),
+              ),
+          FlatButton(
+            onPressed: (){
+                _toAlarmPage(9);
+            },
+            child: Text(
+              'Rainforest',
+              textAlign: TextAlign.center,
+              ),
+              ),
+          FlatButton(
+            onPressed: (){
+                _toAlarmPage(10);
+            },
+            child: Text(
+              'NOT an easter egg',
+              textAlign: TextAlign.center,
+              ),
+              ),
+            
         ],
       ),
       

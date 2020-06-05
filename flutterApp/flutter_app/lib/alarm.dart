@@ -52,13 +52,48 @@ class AlarmState extends State<Alarm> {
 
               else if(widget.selectedSong == 2)
               {
-                const alarmAudioPath = "alarmsound1.mp3";
+                const alarmAudioPath = "whale.mp3";
                 audioCache.play(alarmAudioPath);
               }
-              else 
+              else if(widget.selectedSong == 3)
               {
-                //const alarmAudioPath = "alarmsound1.mp3";
-                //audioCache.play(alarmAudioPath);
+                const alarmAudioPath = "waterfall.mp3";
+                audioCache.play(alarmAudioPath);
+              }
+              else if(widget.selectedSong == 4)
+              {
+                const alarmAudioPath = "crickets.mp3";
+                audioCache.play(alarmAudioPath);
+              }
+              else if(widget.selectedSong == 5)
+              {
+                const alarmAudioPath = "beachwaves.mp3";
+                audioCache.play(alarmAudioPath);
+              }
+              else if(widget.selectedSong == 6)
+              {
+                const alarmAudioPath = "healingwater.mp3";
+                audioCache.play(alarmAudioPath);
+              }
+              else if(widget.selectedSong == 7)
+              {
+                const alarmAudioPath = "rainstorm.mp3";
+                audioCache.play(alarmAudioPath);
+              }
+              else if(widget.selectedSong == 8)
+              {
+                const alarmAudioPath = "creek.mp3";
+                audioCache.play(alarmAudioPath);
+              }
+              else if(widget.selectedSong == 9)
+              {
+                const alarmAudioPath = "rainforest.mp3";
+                audioCache.play(alarmAudioPath);
+              }
+              else if(widget.selectedSong == 10)
+              {
+                const alarmAudioPath = "alarmsound1.mp3";
+                audioCache.play(alarmAudioPath);
               }
             },
             child: Text(

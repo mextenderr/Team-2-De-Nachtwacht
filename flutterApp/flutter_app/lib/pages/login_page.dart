@@ -167,10 +167,11 @@ class _LoginPageState extends State<LoginPage> {
   TextFormField txtUsername(String title, IconData icon) {
     return TextFormField(
       controller: usernameController,
-      obscureText: title == "Username" ? false : true,
+      //obscureText: title == "Username" ? false : true,
       style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
       decoration: InputDecoration(
-          hintText: title,
+          labelText: 'Username',
+          //hintText: title,
           hintStyle: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
           icon: Icon(icon)),
     );
@@ -182,7 +183,8 @@ class _LoginPageState extends State<LoginPage> {
       obscureText: true,
       style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
       decoration: InputDecoration(
-          hintText: title,
+          labelText: 'Password',
+          //hintText: title,
           hintStyle: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
           icon: Icon(icon)),
     );

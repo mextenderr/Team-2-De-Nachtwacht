@@ -141,10 +141,11 @@ class _RegisterPageState extends State<RegisterPage> {
   TextFormField txtUsername(String title, IconData icon){
     return TextFormField(
       controller: usernameController,
-      obscureText: title == "Username" ? false : true,
+      //obscureText: title == "Username" ? false : true,
       style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
       decoration: InputDecoration(
-        hintText: title,
+        labelText: 'Username',
+        //hintText: title,
         hintStyle: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
         icon: Icon(icon)
       ),
@@ -154,10 +155,12 @@ class _RegisterPageState extends State<RegisterPage> {
     TextFormField txtAge(String title, IconData icon){
     return TextFormField(
       controller: ageController,
-      obscureText: title == "Age" ? false : true,
+      keyboardType: TextInputType.number,
+      //obscureText: title == "Age" ? false : true,
       style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
       decoration: InputDecoration(
-        hintText: title,
+        labelText: 'Age',
+        //hintText: title,
         hintStyle: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
         icon: Icon(icon)
       ),
@@ -167,10 +170,11 @@ class _RegisterPageState extends State<RegisterPage> {
   TextFormField txtName(String title, IconData icon){
     return TextFormField(
       controller: nameController,
-      obscureText: title == "Name" ? false : true,
+      //obscureText: title == "Name" ? false : true,
       style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
       decoration: InputDecoration(
-        hintText: title,
+        labelText: 'Name',
+        //hintText: title,
         hintStyle: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
         icon: Icon(icon)
       ),
@@ -182,7 +186,8 @@ class _RegisterPageState extends State<RegisterPage> {
       obscureText: true,
       style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
       decoration: InputDecoration(
-        hintText: title,
+        labelText: 'Password',
+        //hintText: title,
         hintStyle: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
         icon: Icon(icon)
       ),

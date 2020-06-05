@@ -4,7 +4,7 @@ import 'audioManager.dart';
 class Alarm extends ChangeNotifier{
   AudioManager audioManager;
   Alarm(){
-    audioManager = AudioManager(callBack: this.ManagerChangeHandler);
+    audioManager = AudioManager(callBack: this.managerChangeHandler);
   }
 
   void play(String path){
@@ -16,8 +16,9 @@ class Alarm extends ChangeNotifier{
   }
 
 
-  Function ManagerChangeHandler(){
+  Function managerChangeHandler(){
     notifyListeners();
+    return null;
   }
 
 }

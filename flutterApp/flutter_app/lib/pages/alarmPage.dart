@@ -1,8 +1,8 @@
-import 'package:audioplayers/audioplayers.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/helpers/LinePath.dart';
 import 'package:flutter_app/models/audioManager.dart';
-import 'package:audioplayers/audio_cache.dart';
+
 import 'package:flutter_app/soundselect.dart';
 
 class Alarm extends StatefulWidget {

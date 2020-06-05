@@ -1,14 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_app/BackgroundCollectedPage.dart';
-import 'package:flutter_app/BackgroundCollectingTask.dart';
+
 import 'package:flutter_app/helpers/LinePath.dart';
 
 import 'package:flutter_app/pages/SelectBondedDevicePage.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:provider/provider.dart';
-import 'package:scoped_model/scoped_model.dart';
+
 import 'constants.dart' as constants;
 import 'models/connection.dart';
 
@@ -22,15 +21,7 @@ class Bluetooth extends StatefulWidget {
 class BluetoothPageState extends State {
   BluetoothState _bluetoothState = BluetoothState.UNKNOWN;
 
-  String _address = "...";
-  String _name = "...";
 
-  Timer _discoverableTimeoutTimer;
-  int _discoverableTimeoutSecondsLeft = 0;
-
-  BackgroundCollectingTask _collectingTask;
-
-  bool _autoAcceptPairingRequests = false;
 
   @override
   void initState() {
@@ -54,14 +45,14 @@ class BluetoothPageState extends State {
       // Update the address field
       FlutterBluetoothSerial.instance.address.then((address) {
         setState(() {
-          _address = address;
+         
         });
       });
     });
 
     FlutterBluetoothSerial.instance.name.then((name) {
       setState(() {
-        _name = name;
+
       });
     });
 
@@ -72,9 +63,7 @@ class BluetoothPageState extends State {
       setState(() {
         _bluetoothState = state;
 
-        // Discoverable mode is disabled when Bluetooth gets disabled
-        _discoverableTimeoutTimer = null;
-        _discoverableTimeoutSecondsLeft = 0;
+
       });
     });
   }
@@ -87,7 +76,6 @@ class BluetoothPageState extends State {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       extendBodyBehindAppBar: true,
         appBar: AppBar(

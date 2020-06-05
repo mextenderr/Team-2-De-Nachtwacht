@@ -99,10 +99,24 @@ class _RegisterPageState extends State<RegisterPage> {
       padding: EdgeInsets.symmetric(horizontal: 30.0),
       child: OutlineButton(
         onPressed: () {
+          if (usernameController.text.isEmpty){
+            return "Username is required";
+          }
+          if (ageController.text.isEmpty){
+            return "Age is required";
+          }
+          if (nameController.text.isEmpty){
+            return "Name is required";
+          }
+          if (passwordController.text.isEmpty){
+            return "Password is required";
+          }
+          else {
           setState(() {
             _isLoading = true;
           });
-          signUp(usernameController.text, ageController.text, nameController.text, passwordController.text);
+          signUp(usernameController.text, ageController.text, nameController.text, passwordController.text);}
+          return null;
         },
         color: Colors.transparent,
         borderSide: BorderSide(
@@ -110,7 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
           color: Color.fromRGBO(110, 198, 186, 1),
           width: 1,
         ),
-        child: Text( _isLoading ? "Creating account..." : "Sign Up", style: TextStyle(color: Color.fromRGBO(110, 198, 186, 1))),
+        child: Text( _isLoading ? "Creating account..." : "Sign Up", style: TextStyle(color: Color.fromRGBO(110, 198, 186, 1))),      
       ),
     );
   }

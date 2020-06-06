@@ -147,11 +147,11 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Column(
           children: <Widget> [
             txtUsername("Username", Icons.person),
-            SizedBox(height: 30.0),
+            SizedBox(height: 10.0),
             txtAge("Age", Icons.face),
-            SizedBox(height: 30.0),
+            SizedBox(height: 10.0),
             txtName("Name", Icons.person),
-            SizedBox(height: 30.0),
+            SizedBox(height: 10.0),
             txtPassword("Password", Icons.lock),
         ],
       ),
@@ -165,6 +165,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   TextFormField txtUsername(String title, IconData icon){
     return TextFormField(
+      maxLength: 32,
       controller: usernameController,
       //obscureText: title == "Username" ? false : true,
       style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
@@ -189,11 +190,13 @@ class _RegisterPageState extends State<RegisterPage> {
         hintStyle: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
         icon: Icon(icon)
       ),
+      maxLength: 3,
     );
   }
 
   TextFormField txtName(String title, IconData icon){
     return TextFormField(
+      maxLength: 32,
       controller: nameController,
       //obscureText: title == "Name" ? false : true,
       style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),

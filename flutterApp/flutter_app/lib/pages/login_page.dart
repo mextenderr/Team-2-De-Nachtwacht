@@ -57,6 +57,7 @@ class _LoginPageState extends State<LoginPage> {
         // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
         
           // sharedPreferences.setString("token", jsonData['token']);
+          print("User is logged in");
           user.uid = data['uid'];
           user.name = username;
           Navigator.of(context).pushReplacementNamed('/home');
@@ -169,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(
         children: <Widget>[
           txtUsername("Username", Icons.person),
-          SizedBox(height: 30.0),
+          SizedBox(height: 10.0),
           txtPassword("Password", Icons.lock),
         ],
       ),
@@ -181,6 +182,7 @@ class _LoginPageState extends State<LoginPage> {
 
   TextFormField txtUsername(String title, IconData icon) {
     return TextFormField(
+      maxLength: 32,
       controller: usernameController,
       //obscureText: title == "Username" ? false : true,
       style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),

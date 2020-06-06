@@ -108,17 +108,24 @@ class _LoginPageState extends State<LoginPage> {
       padding: EdgeInsets.symmetric(horizontal: 30.0),
       child: OutlineButton(
         onPressed: () {
-          if (usernameController.text.isEmpty){
+          if (usernameController.text.isEmpty && passwordController.text.isEmpty){
+            print("Username and password are required");
+            return "Username and password are required";
+          }
+          else if (usernameController.text.isEmpty){
+            print("Username is required");
             return "Username is required";
           }
-          if (passwordController.text.isEmpty){
+          else if (passwordController.text.isEmpty){
+            print("Password is required");
             return "Password is required";
           }
           else{
           setState(() {
             _isLoading = true;
           });
-          signIn(usernameController.text, passwordController.text);}
+          signIn(usernameController.text, passwordController.text);
+          print("Log in succesfull");}
           return null;
         },
         color: Colors.transparent,

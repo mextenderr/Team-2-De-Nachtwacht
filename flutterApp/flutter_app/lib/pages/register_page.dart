@@ -100,22 +100,33 @@ class _RegisterPageState extends State<RegisterPage> {
       child: OutlineButton(
         onPressed: () {
           if (usernameController.text.isEmpty){
-            return "Username is required";
+            print("Username is required");
+            ;
+            return usernameController;
           }
           if (ageController.text.isEmpty){
+            print("Age is required");
             return "Age is required";
           }
           if (nameController.text.isEmpty){
+            print("Name is required");
             return "Name is required";
           }
           if (passwordController.text.isEmpty){
+            print("Password is required");
             return "Password is required";
+          }
+          if(passwordController.text.length < 8){
+            print("Password must contain at least eight characters");
+            return "Password must contain at least eight characters";
+
           }
           else {
           setState(() {
             _isLoading = true;
           });
-          signUp(usernameController.text, ageController.text, nameController.text, passwordController.text);}
+          signUp(usernameController.text, ageController.text, nameController.text, passwordController.text);
+          print("Register succesfull");}
           return null;
         },
         color: Colors.transparent,
@@ -133,15 +144,15 @@ class _RegisterPageState extends State<RegisterPage> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       margin: EdgeInsets.only(top: 30.0),
-      child: Column(
-        children: <Widget> [
-          txtUsername("Username", Icons.person),
-          SizedBox(height: 30.0),
-          txtAge("Age", Icons.face),
-          SizedBox(height: 30.0),
-          txtName("Name", Icons.person),
-          SizedBox(height: 30.0),
-          txtPassword("Password", Icons.lock),
+        child: Column(
+          children: <Widget> [
+            txtUsername("Username", Icons.person),
+            SizedBox(height: 30.0),
+            txtAge("Age", Icons.face),
+            SizedBox(height: 30.0),
+            txtName("Name", Icons.person),
+            SizedBox(height: 30.0),
+            txtPassword("Password", Icons.lock),
         ],
       ),
     );
@@ -201,6 +212,7 @@ class _RegisterPageState extends State<RegisterPage> {
       style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
       decoration: InputDecoration(
         labelText: 'Password',
+        helperText: "Password must contain at least eight characters",
         //hintText: title,
         hintStyle: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
         icon: Icon(icon)

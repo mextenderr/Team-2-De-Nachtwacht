@@ -67,7 +67,6 @@ def login():
 
 @app.route( '/user', methods = ["GET", "POST"] )
 def user():
-    print('hello')
     # GET requests are used to retreive al information about a user [args -> 'uid']
     if request.method == "GET":
         # out of request we can extract the arguments given in the http request (account details)
@@ -77,7 +76,7 @@ def user():
             """select * from "Users" where uid = %s""", (userid,)
         )
         userinfo = cursor.fetchall()[0]
-        usrdict = {"uid":userinfo[0], "username":userinfo[1], "csv":userinfo[3]}
+        usrdict = {"uid":userinfo[0], "username":userinfo[1], "name":userinfo[2], "age":userinfo[3], "csv":userinfo[5]}
 
         return jsonify(usrdict)
 
@@ -142,8 +141,6 @@ def sleepData():
         body = json.loads(request.data, strict=False)
         user = body["uid"]
         data = body["data"]
-        print(user)
-        print("hello")
         csvUser = getCsvForUser(user)
 
         # Writing the new datapoints to csv file of user
@@ -151,7 +148,7 @@ def sleepData():
             writer = csv.writer(file)
 
             for row in data:
-                writer.writerow([row['timestamp'], row['heartrate']])
+                writer.writerow([row[0], row[1]])
 
         analyseResult = analyse(csvUser)
 

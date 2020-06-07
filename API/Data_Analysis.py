@@ -10,7 +10,7 @@ def analyseData( data, avgHr, std ):
     alerter = 0
     while count < len(data):
         # Calculating base values
-        heartRate = data[count]
+        heartRate = int(data[count][1])
         count += 1
 
         # print(heartRate, avg, count)

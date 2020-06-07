@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/constants.dart' as constants;
+import 'package:toast/toast.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -58,6 +59,7 @@ class _LoginPageState extends State<LoginPage> {
         
           // sharedPreferences.setString("token", jsonData['token']);
           print("User is logged in");
+          Toast.show("User is logged in", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
           user.uid = data['uid'];
           user.name = username;
           Navigator.of(context).pushReplacementNamed('/home');
@@ -111,22 +113,21 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () {
           if (usernameController.text.isEmpty && passwordController.text.isEmpty){
             print("Username and password are required");
-            return "Username and password are required";
+            Toast.show("Username and password are required", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
           }
           else if (usernameController.text.isEmpty){
             print("Username is required");
-            return "Username is required";
+            Toast.show("Username is required", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
           }
           else if (passwordController.text.isEmpty){
             print("Password is required");
-            return "Password is required";
+            Toast.show("Password is required", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
           }
           else{
           setState(() {
             _isLoading = true;
           });
-          signIn(usernameController.text, passwordController.text);
-          print("Log in succesfull");}
+          signIn(usernameController.text, passwordController.text);}
           return null;
         },
         color: Colors.transparent,

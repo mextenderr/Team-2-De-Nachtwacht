@@ -5,6 +5,7 @@ import 'package:flutter_app/helpers/LinePath.dart';
 import 'package:flutter_app/pages/login_page.dart';
 import '../constants.dart' as constants;
 import 'package:http/http.dart' as http;
+import 'package:toast/toast.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -62,6 +63,8 @@ class _RegisterPageState extends State<RegisterPage> {
           });
         }
       else {
+        print("Username already taken");
+        Toast.show("Username already taken", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
       }
     }
     else {
@@ -105,32 +108,34 @@ class _RegisterPageState extends State<RegisterPage> {
       padding: EdgeInsets.symmetric(horizontal: 30.0),
       child: OutlineButton(
         onPressed: () {
-          if (usernameController.text.isEmpty){
+          if(usernameController.text.isEmpty && ageController.text.isEmpty && nameController.text.isEmpty && passwordController.text.isEmpty){
+            print("All fields are empty");
+            Toast.show("All fields are empty", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+          }
+          else if (usernameController.text.isEmpty){
             print("Username is required");
-            
-            return usernameController;
+            Toast.show("Username is required", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
           }
-          if (ageController.text.isEmpty){
+          else if (ageController.text.isEmpty){
             print("Age is required");
-            return "Age is required";
+            Toast.show("Age is required", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
           }
-          if (nameController.text.isEmpty){
+          else if (nameController.text.isEmpty){
             print("Name is required");
-            return "Name is required";
+            Toast.show("Name is required", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
           }
-          if (passwordController.text.isEmpty){
+          else if (passwordController.text.isEmpty){
             print("Password is required");
-            return "Password is required";
+            Toast.show("Password is required", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
           }
-          if(passwordController.text.length < 8){
+          else if(passwordController.text.length < 8){
             print("Password must contain at least eight characters");
-            return "Password must contain at least eight characters";
-
+            Toast.show("Password must contain at least eight characters", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
           }
           else {
 
           signUp(usernameController.text, ageController.text, nameController.text, passwordController.text);
-
+          Toast.show("Register succesfull", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
           }
           return null;
         },

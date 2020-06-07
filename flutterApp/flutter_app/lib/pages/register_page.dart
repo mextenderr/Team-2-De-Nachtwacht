@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_app/helpers/LinePath.dart';
 import 'package:flutter_app/pages/login_page.dart';
 import '../constants.dart' as constants;
-
 import 'package:http/http.dart' as http;
+
 class RegisterPage extends StatefulWidget {
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -52,18 +52,24 @@ class _RegisterPageState extends State<RegisterPage> {
     var body = json.encode(data);
 
     var response = await http.post( constants.URL + "/user", body: body);
+
     if (response.statusCode == 200) {
-      setState(() {
-        _isLoading = false;
-        print("--Succesful register--");
-        Navigator.push(context,  MaterialPageRoute(builder: (context) => LoginPage()),);
-      });
+      var resBody = json.decode(response.body);
+      if ( resBody["succes"] ) {
+        setState(() {
+          _isLoading = false;
+          Navigator.push(context,  MaterialPageRoute(builder: (context) => LoginPage()),);
+          });
+        }
+      else {
+      }
     }
     else {
       print(response.body);
-      print("--Registration failed--");
+      print("--Server connecion failed--");
     }
   }
+
   Widget topSection(){
     return ClipPath(
             
@@ -101,7 +107,7 @@ class _RegisterPageState extends State<RegisterPage> {
         onPressed: () {
           if (usernameController.text.isEmpty){
             print("Username is required");
-            ;
+            
             return usernameController;
           }
           if (ageController.text.isEmpty){
@@ -122,11 +128,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
           }
           else {
-          setState(() {
-            _isLoading = true;
-          });
+
           signUp(usernameController.text, ageController.text, nameController.text, passwordController.text);
-          print("Register succesfull");}
+
+          }
           return null;
         },
         color: Colors.transparent,

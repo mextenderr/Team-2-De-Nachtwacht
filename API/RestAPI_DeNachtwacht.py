@@ -79,7 +79,7 @@ def user():
         userinfo = cursor.fetchall()[0]
         usrdict = {"uid":userinfo[0], "username":userinfo[1], "csv":userinfo[3]}
 
-        return jsonify(usrdict);
+        return jsonify(usrdict)
 
     # POST requests are used to store new user entries in the database
     if request.method == "POST":
@@ -89,6 +89,13 @@ def user():
         name = body["name"]
         age = body["age"]
         password = body["password"]
+
+        cursor.execute(
+            """select * from "Users" where username = %s""", (username,)
+        )
+        existingUsers = len(cursor.fetchall())
+        if existingUsers > 0:
+            return jsonify( succes = False )
 
 
         # making a csv file to store incomming sleep data on

@@ -86,7 +86,7 @@ class AlarmPageState extends State<AlarmPage> {
           ListTile(
             title: Row(
               children: <Widget>[
-                Text("Current alarm: "),
+                Text("Geselecteerd alarm: "),
                 Text("${audioManager.currentTrack.name}", style: TextStyle(color: constants.COLOR),)
               ],
             ),
@@ -102,11 +102,11 @@ class AlarmPageState extends State<AlarmPage> {
               ))),
           playing? Padding(
               padding: const EdgeInsets.all(8.0),
-              child: OutlineButton(borderSide: BorderSide(color: constants.COLOR),child:Text("Stop sound", style:TextStyle(color:constants.COLOR)),onPressed:(){_stopPlaying();}),
+              child: OutlineButton(borderSide: BorderSide(color: constants.COLOR),child:Text("Stop alarmgeluid", style:TextStyle(color:constants.COLOR)),onPressed:(){_stopPlaying();}),
             ):Container(width:0, height:0),
           !playing? Padding(
             padding: const EdgeInsets.all(8.0),
-            child: OutlineButton(borderSide: BorderSide(color: constants.COLOR),child:Text("Play sound", style:TextStyle(color:constants.COLOR)), onPressed: (){
+            child: OutlineButton(borderSide: BorderSide(color: constants.COLOR),child:Text("Alarm afspelen", style:TextStyle(color:constants.COLOR)), onPressed: (){
               _startPlaying();
             }),
           ): Container(width:0, height: 0),
@@ -122,7 +122,7 @@ class AlarmPageState extends State<AlarmPage> {
                 width: 1,
               ),
               child: Text(
-                'Chose sound',
+                'Kies andere alarmgeluid',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: constants.COLOR),
               ),

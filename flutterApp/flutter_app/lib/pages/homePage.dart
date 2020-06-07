@@ -39,16 +39,16 @@ class _MyHomePageState extends State<MyHomePage> {
     print(hour);
     String daypart;
     if (hour <= 6) {
-      daypart = "night";
+      daypart = "nacht";
     } else if (hour >= 6 && hour < 12) {
-      daypart = "morning";
+      daypart = "morgen";
     } else if (hour >= 12 && hour < 18) {
-      daypart = "afternoon";
+      daypart = "middag";
     } else if (hour >= 18) {
-      daypart = "evening";
+      daypart = "avond";
     }
 
-    return "Good $daypart, $name!";
+    return "Goede $daypart, $name!";
   }
 
   @override
@@ -129,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(Icons.bluetooth, color: constants.COLOR,),
-                        Text("Device",
+                        Text("Armband connectie",
                             style:
                                 TextStyle(color: Color.fromRGBO(110, 198, 186, 1))),
                       ],

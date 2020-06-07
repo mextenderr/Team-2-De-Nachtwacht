@@ -61,15 +61,16 @@ class _RegisterPageState extends State<RegisterPage> {
           _isLoading = false;
           Navigator.push(context,  MaterialPageRoute(builder: (context) => LoginPage()),);
           });
+          Toast.show("Account aangemaakt!", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
         }
       else {
-        print("Username already taken");
-        Toast.show("Username already taken", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
+        print("Gebruikersnaam al in gebruik");
+        Toast.show("Gebruikersnaam al in gebruik", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
       }
     }
     else {
       print(response.body);
-      print("--Server connecion failed--");
+      Toast.show("Geen verbinding", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
     }
   }
 
@@ -109,35 +110,14 @@ class _RegisterPageState extends State<RegisterPage> {
       child: OutlineButton(
         onPressed: () {
           if(usernameController.text.isEmpty && ageController.text.isEmpty && nameController.text.isEmpty && passwordController.text.isEmpty){
-            print("All fields are empty");
-            Toast.show("All fields are empty", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
-          }
-          else if (usernameController.text.isEmpty){
-            print("Username is required");
-            Toast.show("Username is required", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
-          }
-          else if (ageController.text.isEmpty){
-            print("Age is required");
-            Toast.show("Age is required", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
-          }
-          else if (nameController.text.isEmpty){
-            print("Name is required");
-            Toast.show("Name is required", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
-          }
-          else if (passwordController.text.isEmpty){
-            print("Password is required");
-            Toast.show("Password is required", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+            Toast.show("Vul verplichte velden in", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
           }
           else if(passwordController.text.length < 8){
-            print("Password must contain at least eight characters");
-            Toast.show("Password must contain at least eight characters", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+            Toast.show("Wachtwoord moet minimaal 8 tekens hebben", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
           }
           else {
-
-          signUp(usernameController.text, ageController.text, nameController.text, passwordController.text);
-          Toast.show("Register succesfull", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+            signUp(usernameController.text, ageController.text, nameController.text, passwordController.text);
           }
-          return null;
         },
         color: Colors.transparent,
         borderSide: BorderSide(
@@ -145,7 +125,7 @@ class _RegisterPageState extends State<RegisterPage> {
           color: Color.fromRGBO(110, 198, 186, 1),
           width: 1,
         ),
-        child: Text( _isLoading ? "Creating account..." : "Sign Up", style: TextStyle(color: Color.fromRGBO(110, 198, 186, 1))),      
+        child: Text( _isLoading ? "Account aan het maken..." : "Registreren", style: TextStyle(color: Color.fromRGBO(110, 198, 186, 1))),      
       ),
     );
   }
@@ -156,13 +136,13 @@ class _RegisterPageState extends State<RegisterPage> {
       margin: EdgeInsets.only(top: 30.0),
         child: Column(
           children: <Widget> [
-            txtUsername("Username", Icons.person),
+            txtUsername("Gebruikersnaam", Icons.person),
             SizedBox(height: 10.0),
-            txtAge("Age", Icons.face),
+            txtAge("Leeftijd", Icons.face),
             SizedBox(height: 10.0),
-            txtName("Name", Icons.person),
+            txtName("Roepnaam", Icons.person),
             SizedBox(height: 10.0),
-            txtPassword("Password", Icons.lock),
+            txtPassword("Wachtwoord", Icons.lock),
         ],
       ),
     );
@@ -180,7 +160,7 @@ class _RegisterPageState extends State<RegisterPage> {
       //obscureText: title == "Username" ? false : true,
       style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
       decoration: InputDecoration(
-        labelText: 'Username',
+        labelText: 'Gebruikersnaam',
         //hintText: title,
         hintStyle: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
         icon: Icon(icon)
@@ -195,7 +175,7 @@ class _RegisterPageState extends State<RegisterPage> {
       //obscureText: title == "Age" ? false : true,
       style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
       decoration: InputDecoration(
-        labelText: 'Age',
+        labelText: 'Leeftijd',
         //hintText: title,
         hintStyle: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
         icon: Icon(icon)
@@ -211,7 +191,7 @@ class _RegisterPageState extends State<RegisterPage> {
       //obscureText: title == "Name" ? false : true,
       style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
       decoration: InputDecoration(
-        labelText: 'Name',
+        labelText: 'Roepnaam',
         //hintText: title,
         hintStyle: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
         icon: Icon(icon)
@@ -224,8 +204,8 @@ class _RegisterPageState extends State<RegisterPage> {
       obscureText: true,
       style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
       decoration: InputDecoration(
-        labelText: 'Password',
-        helperText: "Password must contain at least eight characters",
+        labelText: 'Wachtwoord',
+        helperText: "Wachtwoord moet uit minimaal 8 tekens bestaan",
         //hintText: title,
         hintStyle: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
         icon: Icon(icon)

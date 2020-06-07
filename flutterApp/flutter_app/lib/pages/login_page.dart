@@ -59,15 +59,18 @@ class _LoginPageState extends State<LoginPage> {
         
           // sharedPreferences.setString("token", jsonData['token']);
           print("User is logged in");
-          Toast.show("User is logged in", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+          Toast.show("Ingelogd!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
           user.uid = data['uid'];
           user.name = username;
           Navigator.of(context).pushReplacementNamed('/home');
-         
+        }
+        else {
+          Toast.show("Account bestaat niet", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
         }
       } 
       else {
         print(response.body);
+        Toast.show("Geen verbinding...", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
       }
     setState(() {
           _isLoading = false;
@@ -113,15 +116,15 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () {
           if (usernameController.text.isEmpty && passwordController.text.isEmpty){
             print("Username and password are required");
-            Toast.show("Username and password are required", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+            Toast.show("Gebruiersnaam en wachtwoord zijn vereist", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
           }
           else if (usernameController.text.isEmpty){
-            print("Username is required");
-            Toast.show("Username is required", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+            print("Gebruikersnaam is vereist");
+            Toast.show("Gebruikersnaam is vereist", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
           }
           else if (passwordController.text.isEmpty){
-            print("Password is required");
-            Toast.show("Password is required", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+            print("Wachtwoord is vereist");
+            Toast.show("Wachtwoord is vereist", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
           }
           else{
           setState(() {
@@ -137,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
           width: 1,
         ), 
       
-        child: Text("Sign In", style: TextStyle(color: Color.fromRGBO(110, 198, 186, 1))),
+        child: Text("Inloggen", style: TextStyle(color: Color.fromRGBO(110, 198, 186, 1))),
       ),
     );
   }
@@ -158,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
           color: Color.fromRGBO(110, 198, 186, 1),
           width: 1,
         ), 
-        child: Text("No account? Sign up!",
+        child: Text("Geen account? Maak nu aan!",
             style: TextStyle(color: Color.fromRGBO(110, 198, 186, 1))),
       ),
     );
@@ -170,9 +173,9 @@ class _LoginPageState extends State<LoginPage> {
       margin: EdgeInsets.only(top: 30.0),
       child: Column(
         children: <Widget>[
-          txtUsername("Username", Icons.person),
+          txtUsername("Gebruikersnaam", Icons.person),
           SizedBox(height: 10.0),
-          txtPassword("Password", Icons.lock),
+          txtPassword("Wachtwoord", Icons.lock),
         ],
       ),
     );
@@ -188,7 +191,7 @@ class _LoginPageState extends State<LoginPage> {
       //obscureText: title == "Username" ? false : true,
       style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
       decoration: InputDecoration(
-          labelText: 'Username',
+          labelText: 'Gebruikersnaam',
           //hintText: title,
           hintStyle: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
           icon: Icon(icon)),
@@ -201,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
       obscureText: true,
       style: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
       decoration: InputDecoration(
-          labelText: 'Password',
+          labelText: 'Wachtwoord',
           //hintText: title,
           hintStyle: TextStyle(color: Color.fromRGBO(65, 64, 66, 1)),
           icon: Icon(icon)),

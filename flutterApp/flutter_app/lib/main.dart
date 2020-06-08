@@ -15,9 +15,9 @@ import 'package:provider/provider.dart';
 void main(){runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => Alarm()),
-        ChangeNotifierProvider(create: (context) => Data()),
-        ChangeNotifierProvider(create: (context) => Connection())
+        ChangeNotifierProvider<Alarm>(create: (context) => Alarm()),
+        ChangeNotifierProvider<Data>(create: (context) => Data()),
+        ChangeNotifierProvider<Connection>(create: (context) => Connection())
       ],
       child: MyApp(),
     ),

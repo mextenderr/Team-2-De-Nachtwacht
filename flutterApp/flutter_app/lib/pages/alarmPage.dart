@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/helpers/LinePath.dart';
-import 'package:flutter_app/models/alarm.dart';
+
 import 'package:flutter_app/models/audioManager.dart';
 import 'package:flutter_app/pages/soundselectPage.dart';
-import 'package:flutter_app/tracks.dart' as tracks;
+
 import 'package:flutter_app/constants.dart' as constants;
 import 'package:flutter_app/track.dart';
-import 'package:provider/provider.dart';
+
 
 class AlarmPage extends StatefulWidget {
   const AlarmPage({

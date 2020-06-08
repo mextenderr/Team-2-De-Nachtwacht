@@ -4,7 +4,7 @@ import 'package:flutter_app/models/data.dart';
 import 'package:provider/provider.dart';
 import 'constants.dart' as constants;
 
-Widget sample3(BuildContext context) {
+Widget chart(BuildContext context) {
   final fromDate = DateTime(2019, 05, 22);
   final toDate = DateTime.now();
 
@@ -18,8 +18,10 @@ return Consumer<Data>(
     return Center(
     child: Container(
       color: Colors.transparent,
-      height: MediaQuery.of(context).size.height / 2,
-      width: MediaQuery.of(context).size.width,
+      constraints: BoxConstraints.loose(Size(400, 500)),
+      height: 400,
+      width: 500,
+      
       child: BezierChart(
         fromDate: fromDate,
         bezierChartScale: BezierChartScale.HOURLY,

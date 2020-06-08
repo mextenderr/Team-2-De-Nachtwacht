@@ -7,11 +7,10 @@ import 'package:flutter_app/helpers/LinePath.dart';
 import 'package:flutter_app/pages/SelectBondedDevicePage.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_app/constants.dart' as constants;
+import 'package:flutter_app/models/connection.dart';
 
-import 'constants.dart' as constants;
-import 'models/connection.dart';
-
-class Bluetooth extends StatefulWidget {
+class BluetoothPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return BluetoothPageState();

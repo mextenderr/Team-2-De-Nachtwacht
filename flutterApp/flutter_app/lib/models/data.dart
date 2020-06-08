@@ -11,6 +11,9 @@ class Data extends ChangeNotifier {
 
   Data() {
     user = User();
+
+    Map<String, dynamic> point = {"value": 0, "date": DateTime.now()};
+    data.add(point);
     // check every second if User has enough datapoints
     Timer.periodic(new Duration(seconds: 1), (timer) {
       getPoints();

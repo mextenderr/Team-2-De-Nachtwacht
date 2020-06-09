@@ -49,25 +49,23 @@ def not_found(error):
 def test():
     return jsonify({"succes" : True})
 
-@app.route('/login')
+@app.route( '/login', methods = ["GET"] )
 def login():
-    auth = request.authorization
-    if not auth or not auth.username or not auth.password:
-        return jsonify({"succes" : False})
-    
+    if request.method == "GET":
+        username = request.args.get('username', None)
+        password = request.args.get('password', None)
 
-    username = auth.username
-    password = auth.password
-    query = """SELECT * FROM "Users" where (username = %s) and (password = %s) """, (username, password)
-    cursor.execute(query)
-    user = cursor.fetchall()
-    if(len(user) > 0):
-        print(user[0][0])
-        return jsonify({"succes" : True, "uid":user[0][0]})
+        cursor.execute(
+            """SELECT * FROM "Users" where username = %s and password = %s""", (username, password)
+        )
+        user = cursor.fetchall()
 
-    else:
-        return jsonify({"succes" : False})
- 
+        if(len(user) > 0):
+            print(user[0][0])
+            return jsonify({"succes" : True, "uid":user[0][0]})
+        else:
+            return jsonify({"succes" : False})
+
 
 @app.route( '/user', methods = ["GET", "POST"] )
 def user():

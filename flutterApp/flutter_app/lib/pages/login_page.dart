@@ -46,14 +46,13 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   signIn(String username, String password) async {
-    String basicAuth =
-        'Basic ' + base64Encode(utf8.encode('$username:$password'));
-    String req = constants.URL + '/login';
-    final response = await http.get(req,
-        headers: <String, String>{'authorization': basicAuth});
+    print(username + password);
+    String req = constants.URL + '/login?username=' + username + '&password=' + password;
+    final response = await http.get(req);
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
-      if (data['succes']) {
+      print(data);
+      if (data["succes"]) {
         var user = User();
         // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
         

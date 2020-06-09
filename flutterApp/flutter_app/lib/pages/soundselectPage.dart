@@ -26,7 +26,10 @@ class SoundselectState extends State{
     List<Track> list = tracks.tracklist;
     return ListView.separated
   (
-    separatorBuilder: (context, index) => Divider(color: constants.COLOR),
+    separatorBuilder: (context, index) => Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Divider(color: constants.COLOR),
+    ),
     padding: EdgeInsets.only(top: 0.0),
     itemCount: list.length,
     itemBuilder: (BuildContext ctxt, int index) {

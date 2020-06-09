@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'package:flutter_app/helpers/LinePath.dart';
 import 'package:flutter_app/models/user.dart';
-import 'package:flutter_app/pages/register_page.dart';
+import 'package:flutter_app/pages/registerPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -6,8 +6,8 @@ import 'package:flutter_app/models/data.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_app/pages/homePage.dart';
-import 'package:flutter_app/pages/login_page.dart';
-import 'package:flutter_app/pages/register_page.dart';
+import 'package:flutter_app/pages/loginPage.dart';
+import 'package:flutter_app/pages/registerPage.dart';
 
 
 import 'package:provider/provider.dart';

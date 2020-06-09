@@ -45,6 +45,10 @@ app = Flask(__name__)
 def not_found(error):
     return jsonify({'error': 'Not found'})
 
+@app.route('/test')
+def test():
+    return jsonify({"succes" : True})
+
 @app.route('/login')
 def login():
     auth = request.authorization
@@ -54,7 +58,7 @@ def login():
 
     username = auth.username
     password = auth.password
-    query = f"""SELECT * FROM "Users" where (username = '{username}') and (password = '{password}') """
+    query = """SELECT * FROM "Users" where (username = %s) and (password = %s) """, (username, password)
     cursor.execute(query)
     user = cursor.fetchall()
     if(len(user) > 0):
@@ -98,9 +102,9 @@ def user():
 
 
         # making a csv file to store incomming sleep data on
-        csvFileName = username + '_' + str(randint(1000, 9999)) + '_sleepData.csv'
+        csvFileName = username + '_sleepData.csv'
 
-        with open("DataStorage\\" + csvFileName, 'w', newline='') as file:
+        with open("/home/max/nachtwachtFiles/" + csvFileName, 'w', ) as file:
             writer = csv.writer(file)
             writer.writerow(['time', 'heartrate'])
 
@@ -144,13 +148,14 @@ def sleepData():
         csvUser = getCsvForUser(user)
 
         # Writing the new datapoints to csv file of user
-        with open(csvUser, 'a', newline='') as file:
+        with open(csvUser, 'a') as file:
             writer = csv.writer(file)
 
             for row in data:
                 writer.writerow([row[0], row[1]])
 
         analyseResult = analyse(csvUser)
+
 
         res = json.dumps({ "succes" : True , "wakeup" : analyseResult})
 
@@ -176,7 +181,7 @@ def getCsvForUser(user):
     # returns the path to the user's csv file
 
     cursor.execute("""select csvfilename from "Users" where uid = %s""", (user,))
-    path = "DataStorage\\" + str(cursor.fetchone()[0])
+    path = "/home/max/nachtwachtFiles/" + str(cursor.fetchone()[0])
     return path
 
 def analyse(givenCsv):
@@ -204,5 +209,5 @@ def analyse(givenCsv):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run()
 

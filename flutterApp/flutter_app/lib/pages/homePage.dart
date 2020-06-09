@@ -31,26 +31,21 @@ class _MyHomePageState extends State<MyHomePage> {
     return Consumer<Alarm>(builder: (context, alarm, child) {
       print("notified!");
       if (alarm.playing) {
-       
-        return(Container(
-        
-          child:  OutlineButton(
+        return (Container(
+            child: OutlineButton(
                 onPressed: () {
                   _stopAlarm();
                 },
                 color: Colors.transparent,
                 borderSide: BorderSide(color: Colors.redAccent),
-                child:
-                    Row(
-                      mainAxisAlignment: 
-                      MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(Icons.alarm_off, color: Colors.redAccent),
-                        Text("Stop alarm", style: TextStyle(color: Colors.redAccent)),
-                      ],
-                    )))
-        );
-      
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.alarm_off, color: Colors.redAccent),
+                    Text("Stop alarm",
+                        style: TextStyle(color: Colors.redAccent)),
+                  ],
+                ))));
       } else {
         return Container(width: 0, height: 0);
       }
@@ -92,57 +87,49 @@ class _MyHomePageState extends State<MyHomePage> {
     return "Goede$daypart, $name!";
   }
 
-  Widget chart(){
-    
-  final fromDate = DateTime(2019, 05, 22);
-  final toDate = DateTime.now();
-
-
-{
-    var points  = [
-              DataPoint<DateTime>(value: 10, xAxis: DateTime.now())
-    ];
-    return Center(
-    child: Container(
-      color: Colors.transparent,
-     
-      height: 350,
-      
-      child: BezierChart(
-        fromDate: fromDate,
-        bezierChartScale: BezierChartScale.HOURLY,
-        toDate: toDate,
-        selectedDate: toDate,
-        series: [
-          BezierLine(
-            lineColor: constants.COLOR,
-            label: "BPM",
-            onMissingValue: (dateTime) {
-              if (dateTime.day.isEven) {
-                return 10.0;
-              }
-              return 5.0;
-            },
-            data: points,
+  Widget chart(Data data) {
+    final fromDate = DateTime(2019, 05, 22);
+    final toDate = DateTime.now();
+    var list = data.data.map((e) => DataPoint<DateTime>(value: e["value"], xAxis: e["date"]));
+    var points = [DataPoint<DateTime>(value: 10, xAxis: DateTime.now())];
+    points.addAll(list);
+      return Center(
+        child: Container(
+          color: Colors.transparent,
+          height: 350,
+          child: BezierChart(
+            fromDate: fromDate,
+            bezierChartScale: BezierChartScale.HOURLY,
+            toDate: toDate,
+            selectedDate: toDate,
+            series: [
+              BezierLine(
+                lineColor: constants.COLOR,
+                label: "BPM",
+                onMissingValue: (dateTime) {
+                  if (dateTime.day.isEven) {
+                    return 10.0;
+                  }
+                  return 5.0;
+                },
+                data: points,
+              ),
+            ],
+            config: BezierChartConfig(
+              xAxisTextStyle: TextStyle(color: constants.COLOR, fontSize: 10),
+              verticalIndicatorStrokeWidth: 3.0,
+              verticalIndicatorColor: Colors.black26,
+              showVerticalIndicator: true,
+              verticalIndicatorFixedPosition: false,
+              backgroundColor: Colors.transparent,
+              footerHeight: 30.0,
+            ),
           ),
-        ],
-        config: BezierChartConfig(
-          xAxisTextStyle: TextStyle(color: constants.COLOR, fontSize: 10),
-          verticalIndicatorStrokeWidth: 3.0,
-          verticalIndicatorColor: Colors.black26,
-          showVerticalIndicator: true,
-          verticalIndicatorFixedPosition: false,
-          backgroundColor: Colors.transparent,
-          footerHeight: 30.0,
         ),
-      ),
-    ),
-  );
-  
-}}
-  
+      );
+    
+  }
 
-  
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -182,11 +169,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   size: 230,
                 ),
               )),
-              chart(),
+              Consumer<Data>(builder: (context, data, child) {
+                return chart(data);
+              }),
+         
             ],
           )),
           Expanded(
-                      child: Center(
+            child: Center(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -237,7 +227,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         ],
                       ),
                     ),
-                   
                   ],
                 ),
               ),
@@ -247,4 +236,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  _getPoints() {}
 }

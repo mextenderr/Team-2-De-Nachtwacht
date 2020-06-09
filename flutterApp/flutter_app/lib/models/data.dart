@@ -20,11 +20,11 @@ class Data extends ChangeNotifier {
     });
   }
 
-  // every time user got 10 new points the graph is updated
-  // graph is updated every 66 minutes, can be changed 
+  // every time user got 2 new points the graph is updated
+  // graph is updated every 13 minutes, can be changed 
   void getPoints() {
     data = user.points;
-    if(data.length % 10 == 1){
+    if(data.length % 2 == 1){
       notifyListeners();
     }
   }  

@@ -11,9 +11,11 @@ class AudioManager {
   AudioCache audioCache;
   Track currentTrack;
   bool alarmPlaying = false;
- 
+  var _controller;
+  
   AudioManager._privateConstructor() {
     advancedPlayer = new AudioPlayer();
+    _controller = StreamController<bool>();
     currentTrack = tracks.tracklist[0];
     audioCache = new AudioCache(fixedPlayer: advancedPlayer, respectSilence: false);
     _loadSavedTrack();
@@ -21,7 +23,7 @@ class AudioManager {
 
   static final AudioManager _instance = AudioManager._privateConstructor();
 
-  final _controller = StreamController<bool>();
+ 
 
 
   factory AudioManager() {

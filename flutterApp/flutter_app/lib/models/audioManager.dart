@@ -58,9 +58,7 @@ prefs.setString('alarmTrackName', track.name);
     advancedPlayer.stop();
     alarmPlaying = false;
     _controller.sink.add(alarmPlaying);
-     Timer.periodic(new Duration(seconds: 15), (timer) {   
-      play();
-    });
+     
   }
 
   void play(){

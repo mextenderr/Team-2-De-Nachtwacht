@@ -105,7 +105,7 @@ void send(){
       // fractional part of water pH level.
       
       Serial.write('t');
-      Serial.print(beatAvg);
+      Serial.write(static_cast<byte>(static_cast<int>(beatAvg)));
 
     }
   }

@@ -32,7 +32,7 @@ MAX30105 particleSensor;
 static unsigned long lastRefreshTime = 0;
 bool doUpdateStatus = false;
 
-const byte RATE_SIZE = 4; //Increase this for more averaging. 4 is good.
+const byte RATE_SIZE = 8; //Increase this for more averaging. 4 is good.
 byte rates[RATE_SIZE]; //Array of heart rates
 byte rateSpot = 0;
 long lastBeat = 0; //Time at which the last beat occurred
@@ -105,7 +105,7 @@ void send(){
       // fractional part of water pH level.
       
       Serial.write('t');
-      Serial.write(static_cast<byte>(static_cast<int>(beatsPerMinute)));
+      Serial.print(beatAvg);
 
     }
   }

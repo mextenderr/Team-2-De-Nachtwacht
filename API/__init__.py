@@ -7,8 +7,6 @@ import Data_Analysis as da
 import json
 import csv
 import psycopg2
-import datetime
-
 
 
 # START:  Database setup    #
@@ -45,10 +43,8 @@ app = Flask(__name__)
 def not_found(error):
     return jsonify({'error': 'Not found'})
 
-@app.route('/test')
-def test():
-    return jsonify({"succes" : True})
 
+# Route die gebruikte wordt door de app met inloggen -> checkt of de ingevoerde data klopt
 @app.route( '/login', methods = ["GET"] )
 def login():
     if request.method == "GET":
@@ -67,6 +63,7 @@ def login():
             return jsonify({"succes" : False})
 
 
+# Gebruikt door app om gebruiker op te vragen en een nieuwe gebruiker toe te voegen aan het systeem
 @app.route( '/user', methods = ["GET", "POST"] )
 def user():
     # GET requests are used to retreive al information about a user [args -> 'uid']
@@ -90,17 +87,14 @@ def user():
         name = body["name"]
         age = body["age"]
         password = body["password"]
-      
+
         cursor.execute(
             """select * from "Users" where username = %s""", (username,)
         )
         existingUsers = len(cursor.fetchall())
-        if existingUsers > 0:
-            cursor.execute(
-            """update "Users" set username = %s, name = %s, age = %s, password = %s where username = %s""",(username, name, age, password, username)
-            )
 
-            return jsonify( {"succes" : True} )
+        if existingUsers > 0:
+            return jsonify( {"succes" : False} )
 
 
         # making a csv file to store incomming sleep data on
@@ -120,6 +114,7 @@ def user():
         return jsonify( succes = True ) # this is a generated 200 response to the client side
 
 
+# Gebruikt bij de app voor het opvragen en opslaan van hartslag data
 @app.route('/sleepdata', methods = ["GET", "POST"])
 def sleepData():
 
@@ -164,7 +159,7 @@ def sleepData():
 
         return res
 
-
+# Gebruikt door de app om een snelle check uit te voeren voor droomdetectie
 @app.route('/checkforwakeup', methods = ["GET"])
 def checkForWakeUp():
     user = request.args.get('uid', None)
@@ -181,7 +176,7 @@ def checkForWakeUp():
 # START:  global funcs      #
 
 def getCsvForUser(user):
-    # returns the path to the user's csv file
+    # Functie om de path van de gebruiker zijn csv file op de server op te vragen
 
     cursor.execute("""select csvfilename from "Users" where uid = %s""", (user,))
     path = "/home/max/nachtwachtFiles/" + str(cursor.fetchone()[0])
@@ -197,14 +192,14 @@ def analyse(givenCsv):
         for datapoint in dataPoints:
             heartrates.append(int(float(datapoint[1])))
 
-        std = st.stdev(sample(heartrates, int(len(heartrates)*0.9))) # calculating the standard deviation with a sample of heartrates
+        std = st.stdev(sample(heartrates, int(len(heartrates)*0.9))) # Berekening van de standaarddeviatie
         usersAvg = sum(heartrates) / len(heartrates)
         print(std, usersAvg)
 
         if len(dataPoints) > 100:
             heartrates = dataPoints[:100]
 
-        analyseResult = da.analyseData(heartrates, usersAvg, std)
+        analyseResult = da.analyseData(heartrates, usersAvg, std) # De analyse functie aanroepen met de benodigde data van de gebruiker
 
         return analyseResult
 

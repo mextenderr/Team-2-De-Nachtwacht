@@ -1,10 +1,16 @@
+import 'package:bezier_chart/bezier_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/alarm.dart';
+import 'package:flutter_app/models/audioManager.dart';
+import 'package:flutter_app/models/data.dart';
 import 'package:flutter_app/pages/alarmPage.dart';
-import 'package:flutter_app/bluetooth.dart';
+import 'package:flutter_app/pages/bluetoothPage.dart';
 import 'package:flutter_app/chart.dart';
 import 'package:flutter_app/helpers/LinePath.dart';
 import 'package:flutter_app/models/user.dart';
+import 'package:provider/provider.dart';
 import '../constants.dart' as constants;
+import 'alarmPage.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -13,13 +19,43 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool waiting = false;
+  int count = 0;
+  AudioManager audioManager = AudioManager();
 
+  void _stopAlarm() {
+    audioManager.stop();
+    setState(() {});
+  }
 
+  Widget stopAlarmButton() {
+    return Consumer<Alarm>(builder: (context, alarm, child) {
+      print("notified!");
+      if (alarm.playing) {
+        return (Container(
+            child: OutlineButton(
+                onPressed: () {
+                  _stopAlarm();
+                },
+                color: Colors.transparent,
+                borderSide: BorderSide(color: Colors.redAccent),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.alarm_off, color: Colors.redAccent),
+                    Text("Stop alarm",
+                        style: TextStyle(color: Colors.redAccent)),
+                  ],
+                ))));
+      } else {
+        return Container(width: 0, height: 0);
+      }
+    });
+  }
 
   void _toBluetoothPage() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Bluetooth()),
+      MaterialPageRoute(builder: (context) => BluetoothPage()),
     );
   }
 
@@ -48,7 +84,50 @@ class _MyHomePageState extends State<MyHomePage> {
       daypart = "avond";
     }
 
-    return "Goede $daypart, $name!";
+    return "Goede$daypart, $name!";
+  }
+
+  Widget chart(Data data) {
+    final fromDate = DateTime(2019, 05, 22);
+    final toDate = DateTime.now();
+    var list = data.data.map((e) => DataPoint<DateTime>(value: e["value"], xAxis: e["date"]));
+    var points = [DataPoint<DateTime>(value: 10, xAxis: DateTime.now())];
+    points.addAll(list);
+      return Center(
+        child: Container(
+          color: Colors.transparent,
+          height: 350,
+          child: BezierChart(
+            fromDate: fromDate,
+            bezierChartScale: BezierChartScale.HOURLY,
+            toDate: toDate,
+            selectedDate: toDate,
+            series: [
+              BezierLine(
+                lineColor: constants.COLOR,
+                label: "BPM",
+                onMissingValue: (dateTime) {
+                  if (dateTime.day.isEven) {
+                    return 10.0;
+                  }
+                  return 5.0;
+                },
+                data: points,
+              ),
+            ],
+            config: BezierChartConfig(
+              xAxisTextStyle: TextStyle(color: constants.COLOR, fontSize: 10),
+              verticalIndicatorStrokeWidth: 3.0,
+              verticalIndicatorColor: Colors.black26,
+              showVerticalIndicator: true,
+              verticalIndicatorFixedPosition: false,
+              backgroundColor: Colors.transparent,
+              footerHeight: 30.0,
+            ),
+          ),
+        ),
+      );
+    
   }
 
   @override
@@ -78,64 +157,78 @@ class _MyHomePageState extends State<MyHomePage> {
                     fontWeight: FontWeight.bold,
                     color: constants.COLOR)),
           ),
-
           Center(
-            child: Stack(
-              children: <Widget>[
-                Center(child: Padding(
-                  padding: const EdgeInsets.only(top: 40.0),
-                  child: Icon(Icons.favorite, color: Colors.grey[100], size: 230,),
-                )),
-                sample3(context),
-              ],
-            )
-          ),
-          Center(
-            
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-               
-                children: <Widget>[
-                  OutlineButton(
-                    onPressed: () {
-                      _toAlarmPage();
-                    },
-                    color: Colors.transparent,
-                    borderSide: BorderSide(
-                      color: Color.fromRGBO(110, 198, 186, 1),
-                      width: 1,
+              child: Stack(
+            children: <Widget>[
+              Center(
+                  child: Padding(
+                padding: const EdgeInsets.only(top: 40.0),
+                child: Icon(
+                  Icons.favorite,
+                  color: Colors.grey[100],
+                  size: 230,
+                ),
+              )),
+              Consumer<Data>(builder: (context, data, child) {
+                return chart(data);
+              }),
+         
+            ],
+          )),
+          Expanded(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    stopAlarmButton(),
+                    OutlineButton(
+                      onPressed: () {
+                        _toAlarmPage();
+                      },
+                      color: Colors.transparent,
+                      borderSide: BorderSide(
+                        color: Color.fromRGBO(110, 198, 186, 1),
+                        width: 1,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.alarm,
+                            color: constants.COLOR,
+                          ),
+                          Text("Alarm",
+                              style: TextStyle(
+                                  color: Color.fromRGBO(110, 198, 186, 1))),
+                        ],
+                      ),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(Icons.alarm, color: constants.COLOR,),
-                        Text("Alarm",
-                            style:
-                                TextStyle(color: Color.fromRGBO(110, 198, 186, 1))),
-                      ],
+                    OutlineButton(
+                      onPressed: () {
+                        _toBluetoothPage();
+                      },
+                      color: Colors.transparent,
+                      borderSide: BorderSide(
+                        color: Color.fromRGBO(110, 198, 186, 1),
+                        width: 1,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.bluetooth,
+                            color: constants.COLOR,
+                          ),
+                          Text("Armband connectie",
+                              style: TextStyle(
+                                  color: Color.fromRGBO(110, 198, 186, 1))),
+                        ],
+                      ),
                     ),
-                  ),
-                  OutlineButton(
-                    onPressed: () {
-                      _toBluetoothPage();
-                    },
-                    color: Colors.transparent,
-                    borderSide: BorderSide(
-                      color: Color.fromRGBO(110, 198, 186, 1),
-                      width: 1,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(Icons.bluetooth, color: constants.COLOR,),
-                        Text("Armband connectie",
-                            style:
-                                TextStyle(color: Color.fromRGBO(110, 198, 186, 1))),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -143,4 +236,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  _getPoints() {}
 }

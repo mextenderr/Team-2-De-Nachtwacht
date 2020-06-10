@@ -262,7 +262,7 @@ packages:
     source: hosted
     version: "1.0.1"
   shared_preferences:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: shared_preferences
       url: "https://pub.dartlang.org"

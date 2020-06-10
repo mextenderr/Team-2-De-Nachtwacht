@@ -11,17 +11,20 @@ class Data extends ChangeNotifier {
 
   Data() {
     user = User();
+
+    Map<String, dynamic> point = {"value": 0, "date": DateTime.now()};
+    data.add(point);
     // check every second if User has enough datapoints
     Timer.periodic(new Duration(seconds: 1), (timer) {
       getPoints();
     });
   }
 
-  // every time user got 10 new points the graph is updated
-  // graph is updated every 66 minutes, can be changed 
+  // every time user got 2 new points the graph is updated
+  // graph is updated every 13 minutes, can be changed 
   void getPoints() {
     data = user.points;
-    if(data.length % 10 == 1){
+    if(data.length % 2 == 1){
       notifyListeners();
     }
   }  

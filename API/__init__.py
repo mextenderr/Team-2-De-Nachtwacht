@@ -80,7 +80,7 @@ def user():
         userinfo = cursor.fetchall()[0]
         usrdict = {"uid":userinfo[0], "username":userinfo[1], "name":userinfo[2], "age":userinfo[3], "csv":userinfo[5]}
 
-        return jsonify(usrdict)
+        return jsonify({"succes": True, "user" : usrdict})
 
     # POST requests are used to store new user entries in the database
     if request.method == "POST":
@@ -90,13 +90,17 @@ def user():
         name = body["name"]
         age = body["age"]
         password = body["password"]
-
+      
         cursor.execute(
             """select * from "Users" where username = %s""", (username,)
         )
         existingUsers = len(cursor.fetchall())
         if existingUsers > 0:
-            return jsonify( succes = False )
+            cursor.execute(
+            """update "Users" set username = %s, name = %s, age = %s, password = %s where username = %s""",(username, name, age, password, username)
+            )
+
+            return jsonify( {"succes" : True} )
 
 
         # making a csv file to store incomming sleep data on
@@ -145,12 +149,13 @@ def sleepData():
         data = body["data"]
         csvUser = getCsvForUser(user)
 
+
         # Writing the new datapoints to csv file of user
         with open(csvUser, 'a') as file:
             writer = csv.writer(file)
 
             for row in data:
-                writer.writerow([row[0], row[1]])
+                writer.writerow([row['timestamp'], row['heartrate']])
 
         analyseResult = analyse(csvUser)
 
@@ -164,9 +169,9 @@ def sleepData():
 def checkForWakeUp():
     user = request.args.get('uid', None)
 
-    res = analyse(getCsvForUser(user))
+    # res = analyse(getCsvForUser(user))
 
-    return json.dumps({"wakeup" : res})
+    return json.dumps({"wakeup" : True})
 
 
 # END:    http requests     #
@@ -190,7 +195,7 @@ def analyse(givenCsv):
 
         heartrates = []
         for datapoint in dataPoints:
-            heartrates.append(int(datapoint[1]))
+            heartrates.append(int(float(datapoint[1])))
 
         std = st.stdev(sample(heartrates, int(len(heartrates)*0.9))) # calculating the standard deviation with a sample of heartrates
         usersAvg = sum(heartrates) / len(heartrates)

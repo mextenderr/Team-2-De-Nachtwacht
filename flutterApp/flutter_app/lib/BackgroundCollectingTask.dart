@@ -122,7 +122,7 @@ class BackgroundCollectingTask {
     for(int i = 0; i < this.samples.length; i++){
       total += this.samples[i]['heartrate'];
     }
-    var avg = total / this.samples.length;
+    int avg = (total / this.samples.length).floor() ;
     var time = DateTime.now().toString();
     var data = json.encode(
       {
